@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!-- This file contains the binding information -->
+<!-- for the invoice XML Schema -->
+<!-- It is meant to be used by the Castor Source Code Generator -->
+
+<cbf:binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
+  defaultBindingType='element'>
+  
+  <!--define the {namespace,package} binding -->
+  <cbf:package>
+    <cbf:name>antol</cbf:name>
+    <cbf:namespace>http://antol.dbdoclet.org/castor</cbf:namespace>
+  </cbf:package>
+  
+  <cbf:elementBinding name="project">
+    <java-class name="AntProject" package="org.dbdoclet.antol.ant"/>
+  </cbf:elementBinding>
+
+</cbf:binding>
+     

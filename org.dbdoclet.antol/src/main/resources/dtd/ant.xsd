@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <!-- ============================================ -->
+  <!-- Document Element project                     -->
+  <!-- ============================================ -->
+  <xs:element name="project">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="path"/>
+        <xs:element ref="property"/>
+        <xs:element ref="taskdef"/>
+        <xs:element ref="target"/>
+      </xs:choice>
+      <xs:attribute name="id" type="xs:ID"/>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+      <xs:attribute name="description" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element antcall                              -->
+  <!-- ============================================ -->
+  <xs:element name="antcall">
+    <xs:complexType>
+      <xs:attribute name="target" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element arg                                  -->
+  <!-- ============================================ -->
+  <xs:element name="arg">
+    <xs:complexType>
+      <xs:attribute name="value" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element bootclasspath                        -->
+  <!-- ============================================ -->
+  <xs:element name="bootclasspath">
+    <xs:complexType>
+      <xs:attribute name="refid" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element classpath                            -->
+  <!-- ============================================ -->
+  <xs:element name="classpath">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="fileset"/>
+      </xs:choice>
+      <xs:attribute name="refid" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element copy                                 -->
+  <!-- ============================================ -->
+  <xs:element name="copy">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="fileset" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+      <xs:attribute name="todir" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element delete                               -->
+  <!-- ============================================ -->
+  <xs:element name="delete">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="fileset" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+      <xs:attribute name="dir" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element dirset                               -->
+  <!-- ============================================ -->
+  <xs:element name="dirset">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="exclude"/>
+        <xs:element ref="include"/>
+      </xs:choice>
+      <xs:attribute name="dir" use="required" type="xs:string"/>
+      <xs:attribute name="casesensitive" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element doclet                               -->
+  <!-- ============================================ -->
+  <xs:element name="doclet">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="param" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:choice>
+      <xs:attribute name="name" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element echo                                 -->
+  <!-- ============================================ -->
+  <xs:element name="echo">
+    <xs:complexType>
+      <xs:attribute name="message" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element exclude                              -->
+  <!-- ============================================ -->
+  <xs:element name="exclude">
+    <xs:complexType>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element fop                                  -->
+  <!-- ============================================ -->
+  <xs:element name="fop">
+    <xs:complexType>
+      <xs:attribute name="format" use="required" type="xs:string"/>
+      <xs:attribute name="basedir" use="required" type="xs:string"/>
+      <xs:attribute name="fofile" use="required" type="xs:string"/>
+      <xs:attribute name="outfile" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element include                              -->
+  <!-- ============================================ -->
+  <xs:element name="include">
+    <xs:complexType>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element fileset                              -->
+  <!-- ============================================ -->
+  <xs:element name="fileset">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="exclude"/>
+        <xs:element ref="include"/>
+      </xs:choice>
+      <xs:attribute name="dir" use="required" type="xs:string"/>
+      <xs:attribute name="casesensitive" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element java                                 -->
+  <!-- ============================================ -->
+  <xs:element name="java">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="arg"/>
+        <xs:element ref="bootclasspath"/>
+        <xs:element ref="classpath"/>
+        <xs:element ref="jvmarg"/>
+      </xs:choice>
+      <xs:attribute name="classname" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element javadoc                              -->
+  <!-- ============================================ -->
+  <xs:element name="javadoc">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="classpath"/>
+        <xs:element ref="dirset"/>
+        <xs:element ref="doclet"/>
+        <xs:element ref="fileset"/>
+        <xs:element ref="package"/>
+        <xs:element ref="packageset"/>
+        <xs:element ref="sourcepath"/>
+      </xs:choice>
+      <xs:attribute name="access" type="access"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element jvmarg                               -->
+  <!-- ============================================ -->
+  <xs:element name="jvmarg">
+    <xs:complexType>
+      <xs:attribute name="value" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element mkdir                                -->
+  <!-- ============================================ -->
+  <xs:element name="mkdir">
+    <xs:complexType>
+      <xs:attribute name="dir" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element move                                 -->
+  <!-- ============================================ -->
+  <xs:element name="move">
+    <xs:complexType>
+      <xs:attribute name="file" type="xs:string"/>
+      <xs:attribute name="todir" type="xs:string"/>
+      <xs:attribute name="tofile" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element package                              -->
+  <!-- ============================================ -->
+  <xs:element name="package">
+    <xs:complexType>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element param                                -->
+  <!-- ============================================ -->
+  <xs:element name="param">
+    <xs:complexType>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+      <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element path                                 -->
+  <!-- ============================================ -->
+  <xs:element name="path">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="dirset"/>
+        <xs:element ref="fileset"/>
+        <xs:element ref="pathelement"/>
+      </xs:choice>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element pathelement                          -->
+  <!-- ============================================ -->
+  <xs:element name="pathelement">
+    <xs:complexType>
+      <xs:attribute name="location" type="xs:string"/>
+      <xs:attribute name="path" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element packageset                           -->
+  <!-- ============================================ -->
+  <xs:element name="packageset">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded">
+        <xs:element ref="exclude"/>
+        <xs:element ref="include"/>
+      </xs:choice>
+      <xs:attribute name="dir" use="required" type="xs:string"/>
+      <xs:attribute name="casesensitive" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element property                             -->
+  <!-- ============================================ -->
+  <xs:element name="property">
+    <xs:complexType>
+      <xs:attribute name="file" type="xs:string"/>
+      <xs:attribute name="name" type="xs:string"/>
+      <xs:attribute name="value" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element sourcepath                           -->
+  <!-- ============================================ -->
+  <xs:element name="sourcepath">
+    <xs:complexType>
+      <xs:attribute name="refid" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element taskdef                               -->
+  <!-- ============================================ -->
+  <xs:element name="taskdef">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="classpath"/>
+      </xs:choice>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+      <xs:attribute name="classname" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Element target                               -->
+  <!-- ============================================ -->
+  <xs:element name="target">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="antcall" minOccurs="0"/>
+        <xs:element ref="copy" minOccurs="0"/>
+        <xs:element ref="echo" minOccurs="0"/>
+        <xs:element ref="fop" minOccurs="0"/>
+        <xs:element ref="delete" minOccurs="0"/>
+        <xs:element ref="java" minOccurs="0"/>
+        <xs:element ref="javadoc" minOccurs="0"/>
+        <xs:element ref="mkdir" minOccurs="0"/>
+        <xs:element ref="move" minOccurs="0"/>
+        <xs:element ref="property" minOccurs="0"/>
+      </xs:choice>
+      <xs:attribute name="name" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- ============================================ -->
+  <!-- Type access                                  -->
+  <!-- ============================================ -->
+  <xs:simpleType name="access">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="public"/>
+      <xs:enumeration value="package"/>
+      <xs:enumeration value="protected"/>
+      <xs:enumeration value="private"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
