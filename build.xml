@@ -9,12 +9,21 @@
   <property file="workspace.properties" />
   <import file="../build/build.config/defaultBuild.xml"/>  
 
+  <macrodef name="iterate">
+    <attribute name="target"/>
+    <sequential>
+      <subant target="@{target}"> 
+	<fileset dir=".">
+	  <exclude name="org.dbdoclet.test.*/build.xml"/>
+	  <include name="*/build.xml"/>
+	</fileset>
+      </subant>
+    </sequential>
+  </macrodef>
+
   <target name="build">
-    <echo>resolve mode = ${resolveMode}</echo>
-    <ant useNativeBaseDir="true" antfile="org.dbdoclet.commons/build.xml"/>
-    <ant useNativeBaseDir="true" antfile="org.dbdoclet.getopts/build.xml"/>
-    <ant useNativeBaseDir="true" antfile="org.dbdoclet.jive/build.xml"/>
-    <ant useNativeBaseDir="true" antfile="org.dbdoclet.antol/build.xml"/>
+    <iterate target="build"/>
   </target>
 
+  <echo>resolve mode = ${resolveMode}</echo>
 </project>
