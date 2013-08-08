@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+### Copyright (C) 2001-2012 Michael Fuchs ###
+-->
+<project name="common" default="build">
+
+  <property name="resolveMode" value="default"/>
+
+  <property file="workspace.properties" />
+  <import file="../build/build.config/defaultBuild.xml"/>  
+
+  <target name="build">
+    <echo>resolve mode = ${resolveMode}</echo>
+    <ant useNativeBaseDir="true" antfile="org.dbdoclet.commons/build.xml"/>
+    <ant useNativeBaseDir="true" antfile="org.dbdoclet.getopts/build.xml"/>
+    <ant useNativeBaseDir="true" antfile="org.dbdoclet.jive/build.xml"/>
+    <ant useNativeBaseDir="true" antfile="org.dbdoclet.antol/build.xml"/>
+  </target>
+
+</project>
