@@ -28,9 +28,9 @@ public class Env extends Task {
 
         Project project = getProject();
 
-        Hashtable map = project.getProperties();
+        Hashtable<?, ?> map = project.getProperties();
 
-        TreeMap sortedMap = new TreeMap();
+        TreeMap<String, String> sortedMap = new TreeMap<String, String>();
 
         String name;
         String value;
@@ -38,7 +38,7 @@ public class Env extends Task {
 
         log(headline);
 
-        for (Iterator i = map.keySet().iterator(); i.hasNext();) {
+        for (Iterator<?> i = map.keySet().iterator(); i.hasNext();) {
 
             name = (String) i.next();
             value = (String) map.get(name);
@@ -46,9 +46,9 @@ public class Env extends Task {
             sortedMap.put(name, value);
         }
         
-        for (Iterator i = sortedMap.keySet().iterator(); i.hasNext();) {
+        for (Iterator<String> i = sortedMap.keySet().iterator(); i.hasNext();) {
 
-            name = (String) i.next();
+            name = i.next();
 
             /*
             if (regex != null && regex.length() > 0) {

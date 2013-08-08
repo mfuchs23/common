@@ -9,7 +9,7 @@
   <import file="${build.config.dir}/defaultBuild.xml"/>
 
   <target name="build">
-    <antcall target="jaxb"/>
+    <antcall target="castor"/>
     <antcall target="default.build"/>
   </target>
 

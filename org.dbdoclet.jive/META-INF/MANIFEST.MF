@@ -63,4 +63,4 @@ Export-Package: org.dbdoclet.jive,
  org.dbdoclet.jive.widget.imagemap,
  org.dbdoclet.jive.widget.pathlist,
  org.dbdoclet.jive.widget.sidebar
-Require-Bundle: org.junit4;bundle-version="4.8.1"
+Require-Bundle: org.junit;bundle-version="4.11.0"
