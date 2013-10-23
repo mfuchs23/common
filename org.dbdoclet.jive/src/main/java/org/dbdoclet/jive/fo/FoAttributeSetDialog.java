@@ -367,7 +367,7 @@ public class FoAttributeSetDialog extends AbstractDialog implements ActionListen
 
             attributeSet.setWrapOption(linePanel.getWrapOption());
             attributeSet.setTextAlign(linePanel.getTextAlign());
-            attributeSet.setFoWidth(FoAttributePanel.getDistance(linePanel.getWidthSpinner()));
+            attributeSet.setLineWidth(FoAttributePanel.getDistance(linePanel.getWidthSpinner()));
         }
     }
 

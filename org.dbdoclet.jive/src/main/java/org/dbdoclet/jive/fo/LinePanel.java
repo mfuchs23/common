@@ -73,7 +73,7 @@ public class LinePanel extends FoAttributePanel implements ActionListener,
 		paramPanel.incrRow();
 
 		widthSpinner = jf.createDistanceSpinner(new Identifier("width"), false);
-		widthSpinner.setValue(Length.valueOf(attributeSet.getFoWidth(), false));
+		widthSpinner.setValue(Length.valueOf(attributeSet.getLineWidth(), false));
 		widthSpinner.addChangeListener(this);
 		paramPanel.addLabeledComponent("width", widthSpinner);
 
@@ -148,7 +148,7 @@ public class LinePanel extends FoAttributePanel implements ActionListener,
 		attributeSet.setChanged(true);
 
 		if (comp == widthSpinner) {
-			attributeSet.setFoWidth(getDistance(widthSpinner));
+			attributeSet.setLineWidth(getDistance(widthSpinner));
 		}
 
 		if (comp == lineHeightSpinner) {

@@ -108,7 +108,7 @@ public class FoAttributeSetChooserTest implements ActionListener {
 				if (aset.isLineEnabled()) {
 					System.out.println("\twrap-option: "
 						+ asetList[0].getWrapOption());
-					System.out.println("\twidth: " + asetList[0].getFoWidth());
+					System.out.println("\twidth: " + asetList[0].getLineWidth());
 				}
 			}
 

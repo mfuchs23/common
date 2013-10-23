@@ -19,7 +19,7 @@ package org.dbdoclet.jive.model;
 import javax.swing.DefaultComboBoxModel;
 
 
-public class LabelComboBoxModel extends DefaultComboBoxModel {
+public class LabelComboBoxModel extends DefaultComboBoxModel<LabelItem> {
 
     private static final long serialVersionUID = 1L;
 

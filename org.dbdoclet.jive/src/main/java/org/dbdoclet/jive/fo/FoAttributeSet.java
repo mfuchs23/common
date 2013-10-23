@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 /**
@@ -26,7 +25,6 @@ public class FoAttributeSet {
 	public static final String[] FRAME_STYLE_LIST = new String[] { "solid",
 			"dashed", "dotted", "double", "inset", "outset", "groove", "ridge",
 			"none" };
-	public static final int LINE_SET = 0x04;
 	public static final int SPACING_SET = 0x02;
 
 	// private static final Border border = BorderFactory
@@ -36,46 +34,19 @@ public class FoAttributeSet {
 	private static final Border border = BorderFactory.createEmptyBorder(4, 4,
 			4, 4);
 
+	public static final int LINE_SET = 0x04;
 	private static final String defText = "\"Was glänzt, ist für den Augenblick geboren; // Das Echte bleibt der Nachwelt unverloren.\" - Johann Wolfgang von Goethe, Faust I, Vers 73 f. / Dichter";
 
-	private Color backgroundColor = Color.white;;
 	private boolean changed = false;
-	private String endIndent;
 	private Dimension fixedSize = null;
 	private FoAttributeSetChooser foAttributeSetChooser;
-	private boolean fontColorEnabled = true;
-	private boolean fontEnabled = false;
-	private boolean fontStyleEnabled = true;
-	private Color foregroundColor = Color.black;
-	private boolean frameBottom = false;
-	private Color frameColor = Color.black;
-	private boolean frameEnabled = false;
-	private boolean frameLeft = false;
-	private boolean frameRight = false;
-	private String frameStyle = "solid";
-	private boolean frameTop = false;
-	private String frameWidth = "1pt";
-	private boolean lineEnabled;
-	private String lineHeight;
-	private String padding;
-	private String spaceAfterMaximum;
-	private boolean spaceAfterMaximumVisible = true;
-	private String spaceAfterMinimum;
-	private boolean spaceAfterMinimumVisible = true;
-	private String spaceAfterOptimum;
-	private String spaceBeforeMaximum;
-	private boolean spaceBeforeMaximumVisible = true;
-	private String spaceBeforeMinimum;
-	private boolean spaceBeforeMinimumVisible = true;
-	private String spaceBeforeOptimum;
-	private boolean spacingEnabled;
-	private String startIndent;
-	private String textAlign;
-	private String textIndent;
+
+	private FontAttributes fontAttributes;
+	private FrameAttributes frameAttributes;
+	private SpacingAttributes spacingAttributes;
+	private LineAttributes lineAttributes;
+	
 	private int type = FONT_SET | SPACING_SET | FRAME_SET | LINE_SET;
-	private String width;
-	private String wrapOption;
-	private Font font;
 	private String text;
 	private JLabel label;
 	private boolean activated;
@@ -94,6 +65,11 @@ public class FoAttributeSet {
 			color = Color.black;
 		}
 
+		spacingAttributes = new SpacingAttributes();
+		fontAttributes = new FontAttributes();
+		frameAttributes = new FrameAttributes();
+		lineAttributes = new LineAttributes();
+		
 		setText(text);
 		setFont(font);
 		setForeground(color);
@@ -151,7 +127,7 @@ public class FoAttributeSet {
 		clone.setLineEnabled(isLineEnabled());
 		clone.setWrapOption(getWrapOption());
 		clone.setTextAlign(getTextAlign());
-		clone.setFoWidth(getFoWidth());
+		clone.setLineWidth(getLineWidth());
 		clone.setLineHeight(getLineHeight());
 
 		return clone;
@@ -200,25 +176,20 @@ public class FoAttributeSet {
 		setLineEnabled(other.isLineEnabled());
 		setWrapOption(other.getWrapOption());
 		setTextAlign(other.getTextAlign());
-		setFoWidth(other.getFoWidth());
+		setLineWidth(other.getLineWidth());
 		setLineHeight(other.getLineHeight());
 	}
 
 	public Color getBackground() {
-
-		if (backgroundColor == null) {
-			return Color.white;
-		}
-
-		return backgroundColor;
+		return fontAttributes.getBackgroundColor();
 	}
 
 	public String getEndIndent() {
-		return endIndent;
+		return spacingAttributes.getEndIndent();
 	}
 
 	public Font getFont() {
-		return font;
+		return fontAttributes.getFont();
 	}
 
 	public String getFontFamily() {
@@ -234,72 +205,67 @@ public class FoAttributeSet {
 	}
 
 	public Color getForeground() {
-
-		if (foregroundColor == null) {
-			foregroundColor = Color.black;
-		}
-
-		return foregroundColor;
+		return fontAttributes.getForegroundColor();
 	}
 
-	public String getFoWidth() {
-		return width;
+	public String getLineWidth() {
+		return lineAttributes.getLineWidth();
 	}
 
 	public Color getFrameColor() {
-		return frameColor;
+		return frameAttributes.getFrameColor();
 	}
 
 	public String getFrameStyle() {
-		return frameStyle;
+		return frameAttributes.getFrameStyle();
 	}
 
 	public String getFrameWidth() {
-		return frameWidth;
+		return frameAttributes.getFrameWidth();
 	}
 
 	public String getLineHeight() {
-		return lineHeight;
+		return lineAttributes.getLineHeight();
 	}
 
 	public String getPadding() {
-		return padding;
+		return spacingAttributes.getPadding();
 	}
 
 	public String getSpaceAfterMaximum() {
-		return spaceAfterMaximum;
+		return spacingAttributes.getSpaceAfterMaximum();
 	}
 
 	public String getSpaceAfterMinimum() {
-		return spaceAfterMinimum;
+		return spacingAttributes.getSpaceAfterMinimum();
 	}
 
 	public String getSpaceAfterOptimum() {
-		return spaceAfterOptimum;
+		return spacingAttributes.getSpaceAfterOptimum();
 	}
 
 	public String getSpaceBeforeMaximum() {
-		return spaceBeforeMaximum;
+		return spacingAttributes.getSpaceBeforeMaximum();
 	}
 
 	public String getSpaceBeforeMinimum() {
-		return spaceBeforeMinimum;
+		return spacingAttributes.getSpaceBeforeMinimum();
 	}
 
 	public String getSpaceBeforeOptimum() {
-		return spaceBeforeOptimum;
+		return spacingAttributes.getSpaceBeforeOptimum();
 	}
 
 	public String getStartIndent() {
-		return startIndent;
+		return spacingAttributes.getStartIndent();
 	}
 
 	public String getTextAlign() {
-		return textAlign;
+		return lineAttributes.getTextAlign();
 	}
 
 	public String getTextIndent() {
-		return textIndent;
+		return spacingAttributes.getTextIndent();
 	}
 
 	public int getType() {
@@ -307,7 +273,7 @@ public class FoAttributeSet {
 	}
 
 	public String getWrapOption() {
-		return wrapOption;
+		return lineAttributes.getWrapOption();
 	}
 
 	public boolean isActivated() {
@@ -315,15 +281,15 @@ public class FoAttributeSet {
 	}
 
 	public boolean isFontColorEnabled() {
-		return fontColorEnabled;
+		return fontAttributes.isFontColorEnabled();
 	}
 
 	public boolean isFontEnabled() {
-		return fontEnabled;
+		return fontAttributes.isFontEnabled();
 	}
 
 	public boolean isFontStyleEnabled() {
-		return fontStyleEnabled;
+		return fontAttributes.isFontStyleEnabled();
 	}
 
 	public boolean isFontType() {
@@ -331,23 +297,23 @@ public class FoAttributeSet {
 	}
 
 	public boolean isFrameBottom() {
-		return frameBottom;
+		return frameAttributes.isFrameBottom();
 	}
 
 	public boolean isFrameEnabled() {
-		return frameEnabled;
+		return frameAttributes.isFrameEnabled();
 	}
 
 	public boolean isFrameLeft() {
-		return frameLeft;
+		return frameAttributes.isFrameLeft();
 	}
 
 	public boolean isFrameRight() {
-		return frameRight;
+		return frameAttributes.isFrameRight();
 	}
 
 	public boolean isFrameTop() {
-		return frameTop;
+		return frameAttributes.isFrameTop();
 	}
 
 	public boolean isFrameType() {
@@ -355,7 +321,7 @@ public class FoAttributeSet {
 	}
 
 	public boolean isLineEnabled() {
-		return lineEnabled;
+		return lineAttributes.isLineEnabled();
 	}
 
 	public boolean isLineType() {
@@ -363,23 +329,23 @@ public class FoAttributeSet {
 	}
 
 	public boolean isSpaceAfterMaximumVisible() {
-		return spaceAfterMaximumVisible;
+		return spacingAttributes.isSpaceAfterMaximumVisible();
 	}
 
 	public boolean isSpaceAfterMinimumVisible() {
-		return spaceAfterMinimumVisible;
+		return spacingAttributes.isSpaceAfterMinimumVisible();
 	}
 
 	public boolean isSpaceBeforeMaximumVisible() {
-		return spaceBeforeMaximumVisible;
+		return spacingAttributes.isSpaceBeforeMaximumVisible();
 	}
 
 	public boolean isSpaceBeforeMinimumVisible() {
-		return spaceBeforeMinimumVisible;
+		return spacingAttributes.isSpaceBeforeMinimumVisible();
 	}
 
 	public boolean isSpacingEnabled() {
-		return spacingEnabled;
+		return spacingAttributes.isSpacingEnabled();
 	}
 
 	public boolean isSpacingType() {
@@ -412,12 +378,7 @@ public class FoAttributeSet {
 	}
 
 	public void setBackground(Color bg) {
-
-		if (bg == null) {
-			backgroundColor = Color.white;
-		}
-
-		backgroundColor = bg;
+		fontAttributes.setBackgroundColor(bg);
 	}
 
 	public void setChanged(boolean changed) {
@@ -429,7 +390,7 @@ public class FoAttributeSet {
 	}
 
 	public void setEndIndent(String endIndent) {
-		this.endIndent = endIndent;
+		spacingAttributes.setEndIndent(endIndent);
 	}
 
 	public void setFixedSize(Dimension fixedSize) {
@@ -438,52 +399,47 @@ public class FoAttributeSet {
 	}
 
 	public void setFont(Font font) {
-
-		if (font == null) {
-			font = UIManager.getDefaults().getFont("Label.font");
-		}
-
-		this.font = font;
+		fontAttributes.setFont(font);
 	}
 
 	public void setFontColorEnabled(boolean fontColorEnabled) {
-		this.fontColorEnabled = fontColorEnabled;
+		fontAttributes.setFontColorEnabled(fontColorEnabled);
 	}
 
 	public void setFontEnabled(boolean fontEnabled) {
-		this.fontEnabled = fontEnabled;
+		fontAttributes.setFontEnabled(fontEnabled);
 	}
 
 	public void setFontStyleEnabled(boolean fontStyleEnabled) {
-		this.fontStyleEnabled = fontStyleEnabled;
+		fontAttributes.setFontStyleEnabled(fontStyleEnabled);
 	}
 
 	public void setForeground(Color foregroundColor) {
-		this.foregroundColor = foregroundColor;
+		fontAttributes.setForegroundColor(foregroundColor);
 	}
 
-	public void setFoWidth(String width) {
-		this.width = width;
+	public void setLineWidth(String width) {
+		lineAttributes.setLineWidth(width);
 	}
 
 	public void setFrameBottom(boolean frameBottom) {
-		this.frameBottom = frameBottom;
+		frameAttributes.setFrameBottom(frameBottom);
 	}
 
 	public void setFrameColor(Color frameColor) {
-		this.frameColor = frameColor;
+		frameAttributes.setFrameColor(frameColor);
 	}
 
 	public void setFrameEnabled(boolean frameEnabled) {
-		this.frameEnabled = frameEnabled;
+		frameAttributes.setFrameEnabled(frameEnabled);
 	}
 
 	public void setFrameLeft(boolean frameLeft) {
-		this.frameLeft = frameLeft;
+		frameAttributes.setFrameLeft(frameLeft);
 	}
 
 	public void setFrameRight(boolean frameRight) {
-		this.frameRight = frameRight;
+		frameAttributes.setFrameRight(frameRight);
 	}
 
 	public void setFrameSideEnabled(String side) {
@@ -510,83 +466,84 @@ public class FoAttributeSet {
 	}
 
 	public void setFrameStyle(String frameStyle) {
-		this.frameStyle = frameStyle;
+		frameAttributes.setFrameStyle(frameStyle);
 	}
 
 	public void setFrameTop(boolean frameTop) {
-		this.frameTop = frameTop;
+		frameAttributes.setFrameTop(frameTop);
 	}
 
 	public void setFrameWidth(String frameWidth) {
-		this.frameWidth = frameWidth;
+		frameAttributes.setFrameWidth(frameWidth);
 	}
 
 	public void setLineEnabled(boolean lineEnabled) {
-		this.lineEnabled = lineEnabled;
+		lineAttributes.setLineEnabled(lineEnabled);
 	}
 
 	public void setLineHeight(String lineHeight) {
-		this.lineHeight = lineHeight;
+		lineAttributes.setLineHeight(lineHeight);
 	}
 
 	public void setPadding(String padding) {
-		this.padding = padding;
+		spacingAttributes.setPadding(padding);		setFrameColor(null);
+
 	}
 
 	public void setSpaceAfterMaximum(String spaceAfterMaximum) {
-		this.spaceAfterMaximum = spaceAfterMaximum;
+		spacingAttributes.setSpaceAfterMaximum(spaceAfterMaximum);
 	}
 
 	public void setSpaceAfterMaximumVisible(boolean spaceAfterMaximumVisible) {
-		this.spaceAfterMaximumVisible = spaceAfterMaximumVisible;
+		spacingAttributes.setSpaceAfterMaximumVisible(spaceAfterMaximumVisible);
 	}
 
 	public void setSpaceAfterMinimum(String spaceAfterMinimum) {
-		this.spaceAfterMinimum = spaceAfterMinimum;
+		spacingAttributes.setSpaceAfterMinimum(spaceAfterMinimum);
 	}
 
 	public void setSpaceAfterMinimumVisible(boolean spaceAfterMinimumVisible) {
-		this.spaceAfterMinimumVisible = spaceAfterMinimumVisible;
+		spacingAttributes.setSpaceAfterMinimumVisible(spaceAfterMinimumVisible);
 	}
 
 	public void setSpaceAfterOptimum(String spaceAfterOptimum) {
-		this.spaceAfterOptimum = spaceAfterOptimum;
+		spacingAttributes.setSpaceAfterOptimum(spaceAfterOptimum);
 	}
 
 	public void setSpaceBeforeMaximum(String spaceBeforeMaximum) {
-		this.spaceBeforeMaximum = spaceBeforeMaximum;
+		spacingAttributes.setSpaceBeforeMaximum(spaceBeforeMaximum);
 	}
 
 	public void setSpaceBeforeMaximumVisible(boolean spaceBeforeMaximumVisible) {
-		this.spaceBeforeMaximumVisible = spaceBeforeMaximumVisible;
+		spacingAttributes.setSpaceBeforeMaximumVisible(spaceBeforeMaximumVisible);
 	}
 
 	public void setSpaceBeforeMinimum(String spaceBeforeMinimum) {
-		this.spaceBeforeMinimum = spaceBeforeMinimum;
+		spacingAttributes.setSpaceBeforeMinimum(spaceBeforeMinimum);
 	}
 
 	public void setSpaceBeforeMinimumVisible(boolean spaceBeforeMinimumVisible) {
-		this.spaceBeforeMinimumVisible = spaceBeforeMinimumVisible;
+		spacingAttributes.setSpaceBeforeMinimumVisible(spaceBeforeMinimumVisible);
 	}
 
 	public void setSpaceBeforeOptimum(String spaceBeforeOptimum) {
-		this.spaceBeforeOptimum = spaceBeforeOptimum;
+		spacingAttributes.setSpaceBeforeOptimum(spaceBeforeOptimum);
 	}
 
 	public void setSpacingEnabled(boolean spacingEnabled) {
-		this.spacingEnabled = spacingEnabled;
+		spacingAttributes.setSpacingEnabled(spacingEnabled);
 	}
 
 	public void setStartIndent(String startIndent) {
-		this.startIndent = startIndent;
+		spacingAttributes.setStartIndent(startIndent);
 	}
 
 	public void setTextAlign(String textAlign) {
-		this.textAlign = textAlign;
+		lineAttributes.setTextAlign(textAlign);
 	}
 
 	public void setTextIndent(String textIndent) {
-		this.textIndent = textIndent;
+		spacingAttributes.setTextIndent(textIndent);
 	}
 
 	public void setType(int type) {
@@ -594,7 +551,7 @@ public class FoAttributeSet {
 	}
 
 	public void setWrapOption(String wrapOption) {
-		this.wrapOption = wrapOption;
+		lineAttributes.setWrapOption(wrapOption);
 	}
 
 	public JLabel toJLabel() {
@@ -612,7 +569,7 @@ public class FoAttributeSet {
 			label.setMinimumSize(fixedSize);
 			label.setSize(fixedSize);
 		} else {
-			calculateDimension(label, font);
+			calculateDimension(label, fontAttributes.getFont());
 		}
 
 		return label;
@@ -654,35 +611,9 @@ public class FoAttributeSet {
 
 	public void autoEnable() {
 
-		if (font != null || foregroundColor != null || backgroundColor != null) {
-			setFontEnabled(true);
-		} else {
-			setFontEnabled(false);
-		}
-
-		if (spaceAfterMaximum != null || spaceAfterMinimum != null
-				|| spaceAfterOptimum != null || spaceBeforeMaximum != null
-				|| spaceBeforeMinimum != null || spaceBeforeOptimum != null
-				|| padding != null || startIndent != null || textIndent != null
-				|| endIndent != null) {
-			setSpacingEnabled(true);
-		} else {
-			setSpacingEnabled(false);
-		}
-
-		if (frameBottom || frameLeft || frameRight || frameTop
-				|| frameColor != null || frameStyle != null
-				|| frameWidth != null) {
-			setFrameEnabled(true);
-		} else {
-			setFrameEnabled(false);
-		}
-
-		if (lineHeight != null || textAlign != null || wrapOption != null
-				|| width != null) {
-			setLineEnabled(true);
-		} else {
-			setLineEnabled(false);
-		}
+		fontAttributes.autoEnable();
+		spacingAttributes.autoEnable();
+		frameAttributes.autoEnable();
+		lineAttributes.autoEnable();
 	}
 }
