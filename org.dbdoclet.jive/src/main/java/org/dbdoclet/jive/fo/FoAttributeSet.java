@@ -39,8 +39,6 @@ public class FoAttributeSet {
 
 	private boolean changed = false;
 	private Dimension fixedSize = null;
-	private FoAttributeSetChooser foAttributeSetChooser;
-
 	private FontAttributes fontAttributes;
 	private FrameAttributes frameAttributes;
 	private SpacingAttributes spacingAttributes;
@@ -49,7 +47,6 @@ public class FoAttributeSet {
 	private int type = FONT_SET | SPACING_SET | FRAME_SET | LINE_SET;
 	private String text;
 	private JLabel label;
-	private boolean activated;
 
 	public FoAttributeSet(Font font, Color color) {
 		this(defText, font, color);
@@ -277,7 +274,7 @@ public class FoAttributeSet {
 	}
 
 	public boolean isActivated() {
-		return activated;
+		return isLineEnabled() || isFrameEnabled() || isSpacingEnabled() || isFontEnabled();
 	}
 
 	public boolean isFontColorEnabled() {
@@ -352,16 +349,8 @@ public class FoAttributeSet {
 		return (type & SPACING_SET) == SPACING_SET;
 	}
 
-	public void refresh() {
-
-		if (foAttributeSetChooser != null) {
-			foAttributeSetChooser.refreshAttributeSet(this);
-		}
-	}
-
 	public void reset() {
 
-		setActivated(false);
 		setFontEnabled(false);
 		setFrameEnabled(false);
 		setSpacingEnabled(false);
@@ -373,10 +362,6 @@ public class FoAttributeSet {
 		setBackground(Color.white);
 	}
 
-	public void setActivated(boolean activated) {
-		this.activated = activated;
-	}
-
 	public void setBackground(Color bg) {
 		fontAttributes.setBackgroundColor(bg);
 	}
@@ -386,7 +371,6 @@ public class FoAttributeSet {
 	}
 
 	public void setChooser(FoAttributeSetChooser foAttributeSetChooser) {
-		this.foAttributeSetChooser = foAttributeSetChooser;
 	}
 
 	public void setEndIndent(String endIndent) {
@@ -601,7 +585,7 @@ public class FoAttributeSet {
 		label.setSize(dimension);
 	}
 
-	private String getText() {
+	public String getText() {
 		return text;
 	}
 
