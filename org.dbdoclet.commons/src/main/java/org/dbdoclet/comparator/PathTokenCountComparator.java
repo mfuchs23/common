@@ -52,5 +52,4 @@ public class PathTokenCountComparator implements Comparator<File> {
 
         return true;
     }
-
 }

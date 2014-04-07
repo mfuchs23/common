@@ -1,13 +1,3 @@
-/* 
- * $Id$
- *
- * ### Copyright (C) 2003-2006 Michael Fuchs ###
- * ### All Rights Reserved.             ###
- *
- * Author: Michael Fuchs
- * E-Mail: michael.fuchs@unico-group.com
- * URL:    http://www.michael-a-fuchs.de
- */
 package org.dbdoclet.service;
 
 import java.io.BufferedReader;
@@ -50,11 +40,11 @@ import org.dbdoclet.template.TemplateTransformException;
 import org.dbdoclet.template.TemplateTransformer;
 
 /**
- * Die Klasse <code>FileServices</code> stellt Dienste rund um die
- * Dateiverwaltung bereit.
+ * Die Klasse <code>FileServices</code> stellt statische Methoden zur Verfügung, die
+ * Dateien und Dateverzeichnisse manipulieren und auswerten bereit.
  * 
- * @author <a href="mailto:michael.fuchs@unico-group.com">Michael Fuchs</a>
- * @version 1.0
+ * @author <a href="mailto:michael.fuchs@dbdoclet.org">Michael Fuchs</a>
+ * @version 8.0
  */
 public class FileServices {
 
