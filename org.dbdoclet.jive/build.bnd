@@ -1,4 +1,4 @@
-version=7.0.0
+version=8.0.0
 Bundle-Name=org.dbdoclet.jive
 Bundle-SymbolicName=org.dbdoclet.jive
 Bundle-Version=${version}

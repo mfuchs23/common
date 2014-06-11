@@ -1,33 +1,12 @@
-/* 
- * $Id$
- *
- * ### Copyright (C) 2005 Michael Fuchs ###
- * ### All Rights Reserved.             ###
- *
- * Author: Michael Fuchs
- * E-Mail: michael.fuchs@unico-group.com
- * URL:    http://www.michael-a-fuchs.de
- *
- * RCS Information
- * Author..........: $Author$
- * Date............: $Date$
- * Revision........: $Revision$
- * State...........: $State$
- */
 package org.dbdoclet.option;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.dbdoclet.service.FileServices;
 
-/**
- * Describe class <code>Option</code> here.
- *
- * @author <a href ="mailto:mfuchs@unico-consulting.com">Michael Fuchs</a>
- * @version 1.0
- */
 public abstract class Option<T> implements Comparable<Option<?>> {
 
     private static ResourceBundle res = ResourceBundle.getBundle("org.dbdoclet.option.Resources");
@@ -297,16 +276,18 @@ public abstract class Option<T> implements Comparable<Option<?>> {
         return isRequired;
     }
 
-    public void isRequired(boolean value) {
+    public Option<T> isRequired(boolean value) {
         isRequired = value;
+        return this;
     }
     
     public boolean isUnique() {
         return isUnique;
     }
 
-    public void isUnique(boolean value) {
+    public Option<T> isUnique(boolean value) {
         isUnique = value;
+        return this;
     }
 
     public boolean isUnset() {
@@ -340,12 +321,12 @@ public abstract class Option<T> implements Comparable<Option<?>> {
             && shortName.length() == 0
             && propertyName.length() == 0) {
             return false;
-        } // end of if (longName.length() == 0)
+        }
         
         return true;
     }
 
-    public void setDefault(T value) {
+    public Option<T> setDefault(T value) {
 
         if (value == null) {
             throw new IllegalArgumentException(" The argument value may not be null!");
@@ -353,15 +334,17 @@ public abstract class Option<T> implements Comparable<Option<?>> {
  
         values.clear();
         values.add(value);
+        return this;
     }
 
-    public void setLongName(String longName) {
+    public Option<T> setLongName(String longName) {
         
         if (longName == null) {
             throw new IllegalArgumentException(" The argument longName may not be null!");
         }
  
         this.longName = longName;
+        return this;
     }
 
     public void setLowerCase(boolean isLowerCase) {
@@ -378,22 +361,25 @@ public abstract class Option<T> implements Comparable<Option<?>> {
         return this;
     }
 
-    public void setPropertyName(String propertyName) {
+    public Option<T> setPropertyName(String propertyName) {
 
         if (propertyName == null) {
             throw new IllegalArgumentException(" The argument propertyName may not be null!");
         }
  
         this.propertyName = propertyName;
+        return this;
+
     }
 
-    public void setShortName(String shortName) {
+    public Option<T> setShortName(String shortName) {
  
         if (shortName == null) {
             throw new IllegalArgumentException(" The argument shortName may not be null!");
         }
  
         this.shortName = shortName;
+        return this;
     }
 
     public abstract void setValueFromString(String value);
@@ -412,8 +398,7 @@ public abstract class Option<T> implements Comparable<Option<?>> {
 
     public String toString() {
 
-        StringBuffer buffer = new StringBuffer();
-        T value;
+        StringBuilder buffer = new StringBuilder();
 
         if (propertyName != null && propertyName.length() > 0) {
             buffer.append(propertyName + " ");
@@ -437,19 +422,19 @@ public abstract class Option<T> implements Comparable<Option<?>> {
             buffer.append('A');
         } else {
             buffer.append('a');
-        } // end of else
+        } 
         
         if (isPresent) {
             buffer.append('P');
         } else {
             buffer.append('p');
-        } // end of else
+        } 
         
         if (isRequired) {
             buffer.append('R');
         } else {
             buffer.append('r');
-        } // end of else
+        } 
         
         buffer.append(']');
         for (int j = buffer.length(); j < 32; j++) {
@@ -458,19 +443,8 @@ public abstract class Option<T> implements Comparable<Option<?>> {
         
         buffer.append(": ");
 
-        int counter = 0;
-        for (Iterator<T> i = values.iterator(); i.hasNext();) {
-
-            value = i.next();
-            
-            if (counter > 0) {
-                buffer.append(", ");
-            } 
-            
-            buffer.append(value);
-            counter++;
-
-        }
+        List<String> csList = values.stream().map(T::toString).collect(Collectors.toList());
+        buffer.append(String.join(",  ", csList));
         
         return buffer.toString();
     }

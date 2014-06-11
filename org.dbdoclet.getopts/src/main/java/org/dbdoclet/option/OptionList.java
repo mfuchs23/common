@@ -89,7 +89,7 @@ public class OptionList implements Iterable<Option<?>> {
 	 */
 	public OptionList(String[][] cmdline) {
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		for (int i = 0; i < cmdline.length; i++) {
 			for (int j = 0; j < cmdline[i].length; j++) {
@@ -164,7 +164,7 @@ public class OptionList implements Iterable<Option<?>> {
 			error = "";
 		}
 
-		return error;
+		return String.join(" ",  args) + "\n\n" + error;
 	}
 
 	/**
