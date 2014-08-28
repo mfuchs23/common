@@ -13,6 +13,8 @@ import org.dbdoclet.antol.ant.Property;
 import org.dbdoclet.antol.ant.Target;
 import org.dbdoclet.antol.ant.TargetItem;
 import org.dbdoclet.xiphias.XmlServices;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.ValidationException;
 
 /**
  * Die Klasse <code>AntFileReader</code> .
@@ -30,8 +32,8 @@ public class AntFileReader {
 			String encoding = XmlServices.getEncoding(buildFile);
 			project = AntProject.unmarshal(new InputStreamReader(
 					new FileInputStream(buildFile), encoding));
-		} catch (Throwable oops) {
-			throw new IOException(oops.getMessage());
+		} catch (MarshalException | ValidationException oops) {
+			throw new IOException(oops);
 		}
 	}
 

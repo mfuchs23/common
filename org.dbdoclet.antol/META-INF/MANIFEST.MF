@@ -1,13 +1,14 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.dbdoclet.antol
-Bundle-Version: 5.1.0
+Bundle-Version: 8.0.0
 Bundle-Name: org.dbdoclet.antol
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.commons.logging,
  org.castor.mapping,
  org.dbdoclet.io,
  org.dbdoclet.log,
  org.dbdoclet.service,
+ org.dbdoclet.xiphias,
  org.exolab.castor.core.exceptions,
  org.exolab.castor.mapping,
  org.exolab.castor.mapping.handlers,
@@ -17,7 +18,7 @@ Import-Package: org.apache.commons.logging,
  org.exolab.castor.xml.handlers,
  org.exolab.castor.xml.util,
  org.exolab.castor.xml.validators,
- org.osgi.framework;specification-version="1.4.0"
+ org.osgi.framework;version="1.4.0"
 Provide-Package: org.apache.tools.ant,
  org.apache.tools.ant.types,
  org.apache.tools.ant.util,
@@ -28,3 +29,4 @@ Provide-Package: org.apache.tools.ant,
 Bundle-ClassPath: .,
  lib/ant_1.8.4.jar,
  lib/ant-launcher_1.8.4.jar
+Bundle-ManifestVersion: 2

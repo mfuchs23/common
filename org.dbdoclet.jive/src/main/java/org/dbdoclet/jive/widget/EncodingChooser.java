@@ -7,7 +7,7 @@ import java.util.SortedMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-public class EncodingChooser extends JComboBox {
+public class EncodingChooser extends JComboBox<String> {
 
     private static final long serialVersionUID = 1L;
 
@@ -23,7 +23,7 @@ public class EncodingChooser extends JComboBox {
             encodings[index++] = iterator.next();
         }
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel(encodings);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(encodings);
         setModel(model);
         setSelectedItem("UTF-8");
     }
