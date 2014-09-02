@@ -1,4 +1,4 @@
-version=7.0.0
+version=6.1.2
 Bundle-Name=org.dbdoclet.antol
 Bundle-SymbolicName=org.dbdoclet.antol
 Bundle-Version=${version}

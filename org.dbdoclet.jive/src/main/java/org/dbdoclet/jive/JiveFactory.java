@@ -321,18 +321,18 @@ public final class JiveFactory implements ItemListener, DocumentListener,
 		return createCheckBox(null, label);
 	}
 
-	public <T> JComboBox<T> createComboBox(Identifier key) {
+	public JComboBox createComboBox(Identifier key) {
 		return createComboBox(key, null);
 	}
 
-	public <T> JComboBox<T> createComboBox(Identifier key, T[] list) {
+	public JComboBox createComboBox(Identifier key, Object[] list) {
 
-		JComboBox<T> comboBox;
+		JComboBox comboBox;
 
 		if (list == null) {
-			comboBox = new JComboBox<T>();
+			comboBox = new JComboBox();
 		} else {
-			comboBox = new JComboBox<T>(list);
+			comboBox = new JComboBox(list);
 		}
 
 		comboBox.addItemListener(this);
@@ -690,9 +690,9 @@ public final class JiveFactory implements ItemListener, DocumentListener,
 		return llb;
 	}
 
-	public <T> JList<T> createList(Identifier key) {
+	public JList createList(Identifier key) {
 
-		JList<T> list = new JList<T>();
+		JList list = new JList();
 		addWidget(key, list);
 
 		if (defaultBackground != null) {
