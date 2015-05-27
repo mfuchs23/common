@@ -7,7 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  src/main/resources,
  lib/jlfgr_1.0.jar
-Import-Package: javax.help,
+Import-Package: javax.help;resolution:=optional,
  javax.help.search,
  javax.swing,
  javax.swing.border,
