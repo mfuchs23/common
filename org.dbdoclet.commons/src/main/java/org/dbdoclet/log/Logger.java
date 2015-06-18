@@ -345,6 +345,7 @@ public class Logger {
 		return label;
 	}
 
+	@Deprecated
 	public static void log(int level, int outputFormat, int logLevel, Object msg) {
 
 		Logger logger = new Logger("");
