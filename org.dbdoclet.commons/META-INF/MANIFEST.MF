@@ -17,5 +17,5 @@ Export-Package: org.dbdoclet,
  org.dbdoclet.template,
  org.dbdoclet.transaction,
  org.dbdoclet.unit
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.commons.logging
