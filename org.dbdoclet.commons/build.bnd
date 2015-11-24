@@ -1,4 +1,4 @@
-version=8.0.2-SNAPSHOT
+version=8.0.2
 Bundle-Name=org.dbdoclet.commons
 Bundle-SymbolicName=org.dbdoclet.commons
 Bundle-Version=${version}
