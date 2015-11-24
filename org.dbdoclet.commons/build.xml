@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-### Copyright (C) 2001-2012 Michael Fuchs ###
--->
+<!DOCTYPE project>
 <project name="org.dbdoclet.commons" default="build">
 
   <property file="../module.properties" />

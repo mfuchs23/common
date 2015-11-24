@@ -1,5 +1,6 @@
 <?xml version='1.0'?>
-<project default="dbdoclet.pdf" name="org.dbdoclet.commons">
+<!DOCTYPE project>
+<project default="dbdoclet.docbook.pdf" name="org.dbdoclet.commons">
   <!-- ========================================================== -->
   <!-- Generated from dbdoclet.TiDbit                             -->
   <!-- Generated at 20.12.2012 09:41:07                           -->

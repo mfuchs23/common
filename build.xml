@@ -2,7 +2,7 @@
 <!--
 ### Copyright (C) 2001-2012 Michael Fuchs ###
 -->
-<project name="common" default="build">
+<project name="common" default="module.build">
 
   <property file="workspace.properties" />
   <import file="../build/build.config/defaultBuild.xml"/>  
