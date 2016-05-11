@@ -3,7 +3,7 @@
   <info organisation="org.dbdoclet" module="org.dbdoclet.commons" revision="${module.version}" >
   </info>
   <dependencies>
-    <dependency org="org.apache" name="org.apache.commons.logging" rev="1.1.0" revConstraint="1.1.0"/>
-    <dependency org="org.apache" name="org.apache.log4j" rev="1.2.16" revConstraint="1.2.16"/>
+    <dependency org="org.apache" name="org.apache.commons.logging" rev="1.1.0" revConstraint="latest.release"/>
+    <dependency org="org.apache" name="org.apache.log4j" rev="1.2.16" revConstraint="latest.release"/>
   </dependencies>
 </ivy-module>
