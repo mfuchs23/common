@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -44,27 +44,15 @@ public class Copier {
         doCopy(null);
     }
     
-    public void doCopy(Map<String, String> filterSet)
-        throws IOException {
+    public void doCopy(Map<String, String> filterSet) {
 
-        CopyJob job;
-        File dest;
-        
-        Iterator<File> iterator = jobList.keySet().iterator();
-        
-        while (iterator.hasNext()) {
-            
-            dest = iterator.next();
-            job = jobList.get(dest);
-            
-            //fireProgressEvent(new ProgressEvent(index, "Source File", job.getFrom().getAbsolutePath()));
-
-            if (filterSet == null) {
-                FileServices.copyFileToFile(job.getFrom(), job.getTo());
-            } else {
-                FileServices.copyFileToFile(job.getFrom(), job.getTo(), filterSet);
-            }
-        }
+        jobList.values().stream().forEach(job -> {
+        	try {
+        		FileServices.copyFileToFile(job.getFrom(), job.getTo(), filterSet);
+        	} catch (IOException oops) {
+        		throw new RuntimeException(oops);
+        	}
+        });
     }
     
     public void add(String src, String dest)
@@ -75,8 +63,6 @@ public class Copier {
     public void add(File src, File dest)
         throws IOException {
 
-        File destFile;
-        String destFileName;
         String path;
         
         logger.debug("src=" + src + ", dest=" + dest);
@@ -119,22 +105,26 @@ public class Copier {
 
             File[] files = src.listFiles();
 
-            for (int i = 0; i < files.length; i++) {
+            Arrays.stream(files).forEach(file -> {;
 
-                logger.debug("files[" + i + "]=" + files[i]);
+            	logger.debug("file =" + file);
 
-                destFileName = FileServices.appendFileName(dest, files[i].getName());
-                destFile = new File(destFileName);
+                String destFileName = FileServices.appendFileName(dest, file.getName());
+                File destFile = new File(destFileName);
 
-                if (files[i].isDirectory()) {
-                    FileServices.createPath(destFile);
-                    add(files[i], destFile);
+                if (file.isDirectory()) {
+                	try {
+                		FileServices.createPath(destFile);
+                		add(file, destFile);
+                	} catch (IOException oops) {
+                		throw new RuntimeException(oops);
+                	}
                 }
                 
-                if (files[i].isFile()) {
-                    addToJobList(destFile, files[i]);
+                if (file.isFile()) {
+                    addToJobList(destFile, file);
                 }
-            }
+            });
         }
     }
 
@@ -162,14 +152,7 @@ public class Copier {
             return;
         }
 
-        ProgressListener listener;
-        Iterator<ProgressListener> iterator = progressListenerList.iterator();
-        
-        while (iterator.hasNext()) {
-            
-            listener = iterator.next();
-            listener.progress(event);
-        }
+        progressListenerList.stream().forEach(l -> l.progress(event));
     }
             
     private void addToJobList(File dest, File src) {

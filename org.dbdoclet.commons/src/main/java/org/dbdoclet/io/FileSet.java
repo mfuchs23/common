@@ -210,7 +210,7 @@ public class FileSet {
 	}
 
 	public void setCaseSensitive(boolean caseSensitive) {
-		this.caseSensitive = new Boolean(caseSensitive);
+		this.caseSensitive = Boolean.valueOf(caseSensitive);
 	}
 
 	public void setCaseSensitive(Boolean caseSensitive) {
@@ -226,7 +226,7 @@ public class FileSet {
 	}
 
 	public void setId(int id) {
-		this.id = new Integer(id);
+		this.id = Integer.valueOf(id);
 	}
 
 	public void setId(Integer id) {

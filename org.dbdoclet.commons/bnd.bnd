@@ -1,0 +1,5 @@
+Bundle-Name=org.dbdoclet.commons
+Bundle-SymbolicName=org.dbdoclet.commons
+Bundle-Version=11.0.0
+Export-Package: org.dbdoclet.*
+Bundle-Description: Description 

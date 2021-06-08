@@ -36,11 +36,11 @@ public class Length {
 	}
 
 	public Length(float distance, LengthUnit unit) {
-		this(Locale.getDefault(), new Double(distance), unit);
+		this(Locale.getDefault(), Double.valueOf(distance), unit);
 	}
 
 	public Length(int top) {
-		this(Locale.getDefault(), new Double(top), DEFAULT_UNIT);
+		this(Locale.getDefault(), Double.valueOf(top), DEFAULT_UNIT);
 	}
 
 	public Length(Locale locale, Double distance, LengthUnit unit) {
@@ -111,7 +111,7 @@ public class Length {
 			return new Length(locale, null, unit);
 		}
 
-		Length copy = new Length(locale, new Double(distance), unit);
+		Length copy = new Length(locale, Double.valueOf(distance), unit);
 		return copy;
 	}
 

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.dbdoclet.commons
 Bundle-SymbolicName: org.dbdoclet.commons
-Bundle-Version: 6.1.0
+Bundle-Version: 11.0.0
 Export-Package: org.dbdoclet,
  org.dbdoclet.comparator,
  org.dbdoclet.io,
@@ -17,5 +17,6 @@ Export-Package: org.dbdoclet,
  org.dbdoclet.template,
  org.dbdoclet.transaction,
  org.dbdoclet.unit
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: org.apache.commons.logging
+Automatic-Module-Name: org.dbdoclet.commons

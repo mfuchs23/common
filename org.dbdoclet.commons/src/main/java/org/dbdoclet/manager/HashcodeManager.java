@@ -49,7 +49,7 @@ public class HashcodeManager {
             hc = ( hc * 128 + value.charAt(i)) % 999999937; 
         }
 
-        String str = hcMap.get(new Long(hc));
+        String str = hcMap.get(Long.valueOf(hc));
 
         if (str != null && value.equals(str) == false) {
 
@@ -57,8 +57,8 @@ public class HashcodeManager {
 
         } else {
 
-            hcMap.put(new Long(hc), value);
-            moduleMap.put(value, new Long(hc));
+            hcMap.put(Long.valueOf(hc), value);
+            moduleMap.put(value, Long.valueOf(hc));
         }
 
         return hc;

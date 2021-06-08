@@ -85,10 +85,10 @@ public class HashcodeServices {
             long hc = createHashcode(line, multiplicator, prim);
             System.out.println("hc=" + hc);
 
-            value = (String) hcMap.get(new Long(hc));
+            value = (String) hcMap.get(Long.valueOf(hc));
             
             if (value == null) {
-                hcMap.put(new Long(hc), line);
+                hcMap.put(Long.valueOf(hc), line);
             } else {
                 System.out.println("Doppelter Hashwert für Wert \"" + value + "\" und Wert \"" + line + "\".");
             }
