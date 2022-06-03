@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 .metadata/
 .recommenders/
 .gradle/
 bin/
 build/
+=======
+.metadata
+.recommenders
+**/bin/
+**/build/
+**/distrib/
+**/lib/
+>>>>>>> 3cd8ec4 (Introduction of Java Modules)
