@@ -11,8 +11,6 @@ package org.dbdoclet.service;
 import java.io.File;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.Sfv;
 
 /**
@@ -24,8 +22,6 @@ import org.dbdoclet.Sfv;
  * 
  */
 public class StringServices {
-
-	public static final Log logger = LogFactory.getLog(StringServices.class);
 
 	public static final String ZERO_WIDTH_SPACE = "\u200b";
 	public static final String SIX_PER_EM_SPACE = "\u2006";
@@ -530,10 +526,9 @@ public class StringServices {
 	public static String cutSuffix(String text, String suffix) {
 
 		if (suffix == null) {
-			logger.warn(String
-					.format("Can't cut off a null suffix (%s)!", text));
 			return text;
 		}
+
 		if (text == null) {
 			return null;
 		}

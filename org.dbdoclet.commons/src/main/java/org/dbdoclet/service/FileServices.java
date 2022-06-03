@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.CreatePathException;
 import org.dbdoclet.DeleteFileException;
 import org.dbdoclet.FileAccessDeniedException;
@@ -40,8 +38,8 @@ import org.dbdoclet.template.TemplateTransformException;
 import org.dbdoclet.template.TemplateTransformer;
 
 /**
- * Die Klasse <code>FileServices</code> stellt statische Methoden zur Verfügung, die
- * Dateien und Dateverzeichnisse manipulieren und auswerten bereit.
+ * Die Klasse <code>FileServices</code> stellt statische Methoden zur Verfügung,
+ * die Dateien und Dateverzeichnisse manipulieren und auswerten bereit.
  * 
  * @author <a href="mailto:michael.fuchs@dbdoclet.org">Michael Fuchs</a>
  * @version 8.0
@@ -56,13 +54,10 @@ public class FileServices {
 
 	public static final String FSEP = System.getProperty("file.separator");
 
-	private static Log logger = LogFactory.getLog(FileServices.class);
-
 	/** Verwende den StartsWith-Filter */
 	public static final int STARTS_WITH = 0;
 
-	public static final Pattern PATTERN_ABSOLUTE_WINDOWS_PATH = Pattern
-			.compile("^([a-z,A-Z]:|/)/.*$");
+	public static final Pattern PATTERN_ABSOLUTE_WINDOWS_PATH = Pattern.compile("^([a-z,A-Z]:|/)/.*$");
 
 	/**
 	 * @see #appendFileName(String dir, String filename)
@@ -70,8 +65,7 @@ public class FileServices {
 	public static String appendFileName(File dir, String filename) {
 
 		if (dir == null) {
-			throw new IllegalArgumentException(
-					"The argument dir must not be null!");
+			throw new IllegalArgumentException("The argument dir must not be null!");
 		}
 
 		return appendFileName(dir.getAbsolutePath(), filename);
@@ -81,8 +75,8 @@ public class FileServices {
 	 * Die Methode <code>appendFileName</code> hängt den Dateinamen and das
 	 * Verzeichnis an.
 	 * 
-	 * Falls der Dateinamen mit dem betriebsspezifischen Pfadtrennzeichen endet
-	 * wird eine <code>IllegalArgumentException</code> ausgelöst.
+	 * Falls der Dateinamen mit dem betriebsspezifischen Pfadtrennzeichen endet wird
+	 * eine <code>IllegalArgumentException</code> ausgelöst.
 	 * 
 	 * <div id="example_FileServices_appendFileName_1" title="Beispiel:">
 	 * 
@@ -105,37 +99,32 @@ public class FileServices {
 	public static String appendFileName(String path1, String filename) {
 
 		if (path1 == null || path1.length() == 0) {
-			throw new IllegalArgumentException(
-					"The argument path1 must not be null!");
+			throw new IllegalArgumentException("The argument path1 must not be null!");
 		}
 
 		if (filename == null) {
-			throw new IllegalArgumentException(
-					"The argument filename must not be null!");
+			throw new IllegalArgumentException("The argument filename must not be null!");
 		}
 
 		if (filename.trim().length() == 0) {
-			throw new IllegalArgumentException(
-					"The argument filename must not be empty!");
+			throw new IllegalArgumentException("The argument filename must not be empty!");
 		}
 
 		if (path1.endsWith(File.separator) == false) {
 			path1 += File.separator;
 		}
 
-		if (filename.startsWith(File.separator) == true
-				&& filename.length() > 1) {
+		if (filename.startsWith(File.separator) == true && filename.length() > 1) {
 			filename = filename.substring(1);
 		}
 
 		if (filename.endsWith(File.separator) == true) {
-			throw new IllegalArgumentException("The name of file '" + filename
-					+ "' must not end with '" + File.separator + "'!");
+			throw new IllegalArgumentException(
+					"The name of file '" + filename + "' must not end with '" + File.separator + "'!");
 		}
 
 		if (filename.length() == 0) {
-			throw new IllegalArgumentException(
-					"The filename must not be of length 0!");
+			throw new IllegalArgumentException("The filename must not be of length 0!");
 		}
 
 		return path1 + filename;
@@ -144,13 +133,11 @@ public class FileServices {
 	public static String appendPath(File dir1, File dir2) {
 
 		if (dir1 == null) {
-			throw new IllegalArgumentException(
-					"The argument dir1 must not be null!");
+			throw new IllegalArgumentException("The argument dir1 must not be null!");
 		}
 
 		if (dir2 == null) {
-			throw new IllegalArgumentException(
-					"The argument dir2 must not be null!");
+			throw new IllegalArgumentException("The argument dir2 must not be null!");
 		}
 
 		return appendPath(dir1.getPath(), dir2.getPath());
@@ -159,13 +146,11 @@ public class FileServices {
 	public static String appendPath(File dir1, String path2) {
 
 		if (dir1 == null) {
-			throw new IllegalArgumentException(
-					"The argument dir1 must not be null!");
+			throw new IllegalArgumentException("The argument dir1 must not be null!");
 		}
 
 		if (path2 == null) {
-			throw new IllegalArgumentException(
-					"The argument path2 must not be null!");
+			throw new IllegalArgumentException("The argument path2 must not be null!");
 		}
 
 		return appendPath(dir1.getPath(), path2);
@@ -181,8 +166,7 @@ public class FileServices {
 	public static String appendPath(String path1, String path2) {
 
 		if (path1 == null || path1.length() == 0) {
-			throw new IllegalArgumentException(
-					"The argument path1 must not be null!");
+			throw new IllegalArgumentException("The argument path1 must not be null!");
 		}
 
 		if (path2 == null || path2.length() == 0) {
@@ -214,22 +198,19 @@ public class FileServices {
 	 * Die Methode <code>cleanRelatedFiles</code> löscht eine Datei oder ein
 	 * Verzeichnis und alle "verwandten" Dateien und Verzeichnisse.
 	 * 
-	 * Als verwandte Dateiobjekte werden alle Dateien und Verzeichnisse
-	 * betrachtet, deren Dateinname aus dem Dateinamen der Referenzdatei mit
-	 * angehängtem Bindestrich und einer Ziffer besteht. Falls eine
-	 * Dateinamenserweiterung vorhanden ist, wird diese am Ende des Dateinamens
-	 * erwartet, z.B. <code>Addressen-12.txt</code> ist verwand mit
-	 * <code>Addressen.txt</code>.
+	 * Als verwandte Dateiobjekte werden alle Dateien und Verzeichnisse betrachtet,
+	 * deren Dateinname aus dem Dateinamen der Referenzdatei mit angehängtem
+	 * Bindestrich und einer Ziffer besteht. Falls eine Dateinamenserweiterung
+	 * vorhanden ist, wird diese am Ende des Dateinamens erwartet, z.B.
+	 * <code>Addressen-12.txt</code> ist verwand mit <code>Addressen.txt</code>.
 	 * 
-	 * @param file
-	 *            <code>File</code>
+	 * @param file <code>File</code>
 	 * @exception IOException
 	 */
 	public static void cleanRelatedFiles(File file) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		int index = 1;
@@ -240,16 +221,10 @@ public class FileServices {
 		fileBase = getFileBase(file.getCanonicalPath());
 		fileExt = getExtension(file.getCanonicalPath());
 
-		logger.debug("Verzeichnis aufräumen: " + file.getCanonicalPath());
-
 		while (file.exists() == true) {
 
-			try {
-				setWritable(file);
-				delete(file);
-			} catch (Exception oops) {
-				logger.fatal("FileServices.cleanRelatedFiles", oops);
-			}
+			setWritable(file);
+			delete(file);
 
 			path = fileBase + "-" + String.valueOf(index++);
 
@@ -258,21 +233,17 @@ public class FileServices {
 			}
 
 			file = new File(path);
-			logger.debug("Verzeichnis aufräumen: " + file.getCanonicalPath());
 		}
 	}
 
-	public static boolean contains(File file, String regex)
-			throws ServiceException {
+	public static boolean contains(File file, String regex) throws ServiceException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		if (regex == null) {
-			throw new IllegalArgumentException(
-					"The argument regex must not be null!");
+			throw new IllegalArgumentException("The argument regex must not be null!");
 		}
 
 		BufferedReader reader = null;
@@ -318,83 +289,66 @@ public class FileServices {
 	public static boolean copyDir(File src, File dest) throws IOException {
 
 		if (src == null) {
-			throw new IllegalArgumentException(
-					"The argument src must not be null!");
+			throw new IllegalArgumentException("The argument src must not be null!");
 		}
 
 		if (dest == null) {
-			throw new IllegalArgumentException(
-					"The argument dest must not be null!");
+			throw new IllegalArgumentException("The argument dest must not be null!");
 		}
 
-		return copyDir(src.getCanonicalPath(), dest.getCanonicalPath(), null,
-				null);
+		return copyDir(src.getCanonicalPath(), dest.getCanonicalPath(), null, null);
 	}
 
-	public static boolean copyDir(File src, File dest,
-			Map<String, String> filterSet) throws IOException {
+	public static boolean copyDir(File src, File dest, Map<String, String> filterSet) throws IOException {
 
 		if (src == null) {
-			throw new IllegalArgumentException(
-					"The argument src must not be null!");
+			throw new IllegalArgumentException("The argument src must not be null!");
 		}
 
 		if (dest == null) {
-			throw new IllegalArgumentException(
-					"The argument dest must not be null!");
+			throw new IllegalArgumentException("The argument dest must not be null!");
 		}
 
-		return copyDir(src.getCanonicalPath(), dest.getCanonicalPath(), null,
-				filterSet, null, null);
+		return copyDir(src.getCanonicalPath(), dest.getCanonicalPath(), null, filterSet, null, null);
 	}
 
-	public static boolean copyDir(File src, File dest, Pattern includePattern)
-			throws IOException {
+	public static boolean copyDir(File src, File dest, Pattern includePattern) throws IOException {
 
 		if (src == null) {
-			throw new IllegalArgumentException(
-					"The argument src must not be null!");
+			throw new IllegalArgumentException("The argument src must not be null!");
 		}
 
 		if (dest == null) {
-			throw new IllegalArgumentException(
-					"The argument dest must not be null!");
+			throw new IllegalArgumentException("The argument dest must not be null!");
 		}
 
 		if (includePattern == null) {
-			throw new IllegalArgumentException(
-					"The argument includePattern must not be null!");
+			throw new IllegalArgumentException("The argument includePattern must not be null!");
 		}
 
 		Pattern[] patterns = new Pattern[1];
 		patterns[0] = includePattern;
 
-		return copyDir(src.getPath(), dest.getPath(), patterns, null, null,
-				null);
+		return copyDir(src.getPath(), dest.getPath(), patterns, null, null, null);
 	}
 
-	public static boolean copyDir(File src, String dest, int index)
-			throws IOException {
+	public static boolean copyDir(File src, String dest, int index) throws IOException {
 
 		if (src == null) {
-			throw new IllegalArgumentException(
-					"The argument src must not be null!");
+			throw new IllegalArgumentException("The argument src must not be null!");
 		}
 
 		return copyDir(src.getCanonicalPath(), dest, index);
 	}
 
-	public static boolean copyDir(File src, String dest, int index,
-			ProgressListener listener, String resourceString)
+	public static boolean copyDir(File src, String dest, int index, ProgressListener listener, String resourceString)
 			throws IOException {
 
 		if (src == null) {
-			throw new IllegalArgumentException(
-					"The argument src must not be null!");
+			throw new IllegalArgumentException("The argument src must not be null!");
 		}
 
-		return copyDir(src.getCanonicalPath(), dest, index, listener,
-				resourceString);
+		return copyDir(src.getCanonicalPath(), dest, index, listener, resourceString);
 	}
 
 	public static boolean copyDir(String src, String dest) throws IOException {
@@ -402,8 +356,7 @@ public class FileServices {
 		return copyDir(src, dest, null, null, null, null);
 	}
 
-	public static boolean copyDir(String src, String dest, int index)
-			throws IOException {
+	public static boolean copyDir(String src, String dest, int index) throws IOException {
 
 		return copyDir(src, dest, index, null, null);
 	}
@@ -412,16 +365,12 @@ public class FileServices {
 	 * Die Methode <code>copyDir</code> kopiert das Verzeichnis mit einem Teil
 	 * seines übergeordneten Pfades in das angegebene Zielverzeichnis.
 	 * 
-	 * @param src
-	 *            <code>String</code>
-	 * @param dest
-	 *            <code>String</code>
-	 * @param index
-	 *            <code>int</code>
+	 * @param src   <code>String</code>
+	 * @param dest  <code>String</code>
+	 * @param index <code>int</code>
 	 * @exception IOException
 	 */
-	public static boolean copyDir(String src, String dest, int index,
-			ProgressListener listener, String resourceString)
+	public static boolean copyDir(String src, String dest, int index, ProgressListener listener, String resourceString)
 			throws IOException {
 
 		String path = normalizePath(src);
@@ -437,9 +386,6 @@ public class FileServices {
 
 			name = getPathToken(path, i);
 			dest = appendPath(dest, name);
-
-			logger.debug("Anlegen des Verzeichnisses " + dest + ".");
-
 			dest = normalizePath(dest);
 			FileServices.createPath(dest);
 		}
@@ -447,50 +393,41 @@ public class FileServices {
 		return copyDir(src, dest, null, null, listener, resourceString);
 	}
 
-	public static boolean copyDir(String src, String dest,
-			Map<String, String> filterSet) throws IOException {
+	public static boolean copyDir(String src, String dest, Map<String, String> filterSet) throws IOException {
 
 		return copyDir(src, dest, null, filterSet, null, null);
 	}
 
-	public static boolean copyDir(String src, String dest,
-			Pattern[] includePatterns) throws IOException {
+	public static boolean copyDir(String src, String dest, Pattern[] includePatterns) throws IOException {
 
 		return copyDir(src, dest, includePatterns, null, null, null);
 	}
 
 	/**
-	 * Die Methode <code>copyDir</code> kopiert ein Verzeichnis und seinen
-	 * Inhalt einschließlich aller Unterverzeichnissen.
+	 * Die Methode <code>copyDir</code> kopiert ein Verzeichnis und seinen Inhalt
+	 * einschließlich aller Unterverzeichnissen.
 	 * 
-	 * @param src
-	 *            Der Parameter <code>src</code> enthält das Quellverzeichnis,
-	 *            welches kopiert werden soll. Wird als Wert <code>null</code>
-	 *            übergeben existiert das Verzeichnis nicht oder der angegebene
-	 *            Pfad ist kein Verzeichnis, wird eine
-	 *            <code>IllegalArgumentException</code> ausglöst.
+	 * @param src  Der Parameter <code>src</code> enthält das Quellverzeichnis,
+	 *             welches kopiert werden soll. Wird als Wert <code>null</code>
+	 *             übergeben existiert das Verzeichnis nicht oder der angegebene
+	 *             Pfad ist kein Verzeichnis, wird eine
+	 *             <code>IllegalArgumentException</code> ausglöst.
 	 * 
-	 * @param dest
-	 *            Der Parameter <code>dest</code> enthält das Zielverzeichnis in
-	 *            das kopiert werden soll. Wird als Wert <code>null</code>
-	 *            übergeben oder ist der angegebene Pfad kein Verzeichnis, wird
-	 *            eine <code>IllegalArgumentException</code> ausglöst. Falls das
-	 *            Zielverzeichnis nicht existiert wird es angelegt.
+	 * @param dest Der Parameter <code>dest</code> enthält das Zielverzeichnis in
+	 *             das kopiert werden soll. Wird als Wert <code>null</code>
+	 *             übergeben oder ist der angegebene Pfad kein Verzeichnis, wird
+	 *             eine <code>IllegalArgumentException</code> ausglöst. Falls das
+	 *             Zielverzeichnis nicht existiert wird es angelegt.
 	 * 
-	 * @exception IOException
-	 *                Falls beim Kopieren ein Ein/Ausgabefehler auftritt.
+	 * @exception IOException Falls beim Kopieren ein Ein/Ausgabefehler auftritt.
 	 */
-	public static boolean copyDir(String src, String dest,
-			Pattern[] includePatterns, Map<String, String> filterSet,
-			ProgressListener listener, String resourceString)
-			throws IOException {
+	public static boolean copyDir(String src, String dest, Pattern[] includePatterns, Map<String, String> filterSet,
+			ProgressListener listener, String resourceString) throws IOException {
 
 		String msg;
 
 		src = normalizePath(src);
 		dest = normalizePath(dest);
-
-		logger.debug(src + " -> " + dest);
 
 		if (src == null) {
 			throw new IllegalArgumentException("Parameter src is null!");
@@ -503,20 +440,18 @@ public class FileServices {
 		File srcDir = new File(src);
 
 		if (srcDir.exists() == false) {
-			throw new FileNotFoundException("Source path '"
-					+ srcDir.getAbsolutePath() + "' dosen't exist!");
+			throw new FileNotFoundException("Source path '" + srcDir.getAbsolutePath() + "' dosen't exist!");
 		}
 
 		if (srcDir.isDirectory() == false) {
-			throw new IllegalArgumentException("Source path '"
-					+ srcDir.getAbsolutePath() + "' is not a directory!");
+			throw new IllegalArgumentException("Source path '" + srcDir.getAbsolutePath() + "' is not a directory!");
 		}
 
 		File destDir = FileServices.createPath(dest);
 
 		if (destDir.isDirectory() == false) {
-			throw new IllegalArgumentException("Destination path '"
-					+ destDir.getAbsolutePath() + "' is not a directory!");
+			throw new IllegalArgumentException(
+					"Destination path '" + destDir.getAbsolutePath() + "' is not a directory!");
 		}
 
 		src = normalizePath(srcDir.getCanonicalPath());
@@ -538,8 +473,7 @@ public class FileServices {
 
 				String newDest = StringServices.replace(newSrc, src, dest);
 
-				copyDir(newSrc, newDest, includePatterns, filterSet, listener,
-						resourceString);
+				copyDir(newSrc, newDest, includePatterns, filterSet, listener, resourceString);
 
 				if (includePatterns != null) {
 
@@ -574,11 +508,8 @@ public class FileServices {
 
 				if (listener != null) {
 
-					logger.debug("Firing progress event.");
-
 					if (resourceString != null) {
-						msg = MessageFormat.format(resourceString,
-								files[i].getPath(), destFile.getPath());
+						msg = MessageFormat.format(resourceString, files[i].getPath(), destFile.getPath());
 					} else {
 						msg = files[i].getName();
 					}
@@ -587,9 +518,6 @@ public class FileServices {
 						return false;
 					}
 				}
-
-				logger.debug(files[i].getAbsolutePath() + " -> "
-						+ destFile.getAbsolutePath());
 
 				if (filterSet == null || isBinary(files[i])) {
 
@@ -611,36 +539,30 @@ public class FileServices {
 					out.close();
 
 					if (destFile.exists() == false) {
-						throw new IOException("Couldn't create file "
-								+ destFileName + "!");
+						throw new IOException("Couldn't create file " + destFileName + "!");
 					}
 
 					if (destFile.length() != files[i].length()) {
-						throw new IOException("Files differ after copy: "
-								+ destFileName + "!");
+						throw new IOException("Files differ after copy: " + destFileName + "!");
 					}
 
 				} else {
 
 					try {
 
-						TemplateTransformer trafo = TemplateTransformer
-								.newInstance(files[i]);
+						TemplateTransformer trafo = TemplateTransformer.newInstance(files[i]);
 						trafo.transform(filterSet, destFile);
 
 					} catch (TemplateTransformException oops) {
 
-						IOException ioe = new IOException(
-								"TemplateTransformException: "
-										+ oops.getMessage());
+						IOException ioe = new IOException("TemplateTransformException: " + oops.getMessage());
 						ioe.initCause(oops);
 						ioe.fillInStackTrace();
 						throw ioe;
 					}
 
 					if (destFile.exists() == false) {
-						throw new IOException("Couldn't create file "
-								+ destFileName + "!");
+						throw new IOException("Couldn't create file " + destFileName + "!");
 					}
 				}
 			}
@@ -649,8 +571,7 @@ public class FileServices {
 		return true;
 	}
 
-	public static boolean copyDir(String src, String dest,
-			ProgressListener listener, String resourceString)
+	public static boolean copyDir(String src, String dest, ProgressListener listener, String resourceString)
 			throws IOException {
 
 		return copyDir(src, dest, null, null, listener, resourceString);
@@ -667,14 +588,11 @@ public class FileServices {
 	 * 
 	 * Falls das Zielverzeichnis nicht existiert, wird es angelegt.
 	 * 
-	 * Die Datei wird nur kopiert, falls die Quelldatei neuer als die Zieldatei
-	 * ist.
+	 * Die Datei wird nur kopiert, falls die Quelldatei neuer als die Zieldatei ist.
 	 * 
-	 * @exception IOException
-	 *                falls ein Fehler beim Kopieren auftritt.
+	 * @exception IOException falls ein Fehler beim Kopieren auftritt.
 	 */
-	public static void copyFileToDir(String src, String destdir)
-			throws IOException {
+	public static void copyFileToDir(String src, String destdir) throws IOException {
 
 		File file;
 
@@ -685,13 +603,11 @@ public class FileServices {
 		file = new File(src);
 
 		if (file.exists() == false) {
-			throw new IllegalArgumentException("Parameter src ("
-					+ file.getAbsolutePath() + ") can not be found!");
+			throw new IllegalArgumentException("Parameter src (" + file.getAbsolutePath() + ") can not be found!");
 		}
 
 		if (file.isFile() == false) {
-			throw new IllegalArgumentException("Parameter src ("
-					+ file.getAbsolutePath() + ") is not a normal file!");
+			throw new IllegalArgumentException("Parameter src (" + file.getAbsolutePath() + ") is not a normal file!");
 		}
 
 		if (destdir == null) {
@@ -701,8 +617,8 @@ public class FileServices {
 		file = new File(destdir);
 
 		if (file.exists() && file.isDirectory() == false) {
-			throw new IllegalArgumentException("Parameter destdir ("
-					+ file.getAbsolutePath() + ") is not a directory!");
+			throw new IllegalArgumentException(
+					"Parameter destdir (" + file.getAbsolutePath() + ") is not a directory!");
 		}
 
 		File srcFile = new File(src);
@@ -727,36 +643,31 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>copyFileToFile</code> kopiert eine einzelne Datei,
-	 * falls die Quelldatei neuer als die Zieldatei ist.
+	 * Die Methode <code>copyFileToFile</code> kopiert eine einzelne Datei, falls
+	 * die Quelldatei neuer als die Zieldatei ist.
 	 * 
 	 * Falls das Zielverzeichnis nicht existiert, wird es angelegt.
 	 * 
-	 * @throws IOException
-	 *             falls ein Fehler beim Kopieren auftritt.
+	 * @throws IOException falls ein Fehler beim Kopieren auftritt.
 	 */
 	public static void copyFileToFile(File src, File dest) throws IOException {
 
 		copyFileToFile(src.getAbsolutePath(), dest.getAbsolutePath(), null);
 	}
 
-	public static void copyFileToFile(File srcFile, File destFile,
-			Map<String, String> filterSet) throws IOException {
+	public static void copyFileToFile(File srcFile, File destFile, Map<String, String> filterSet) throws IOException {
 
 		if (srcFile == null) {
 			throw new IllegalArgumentException("Parameter srcFile is null!");
 		}
 
 		if (srcFile.exists() == false) {
-			throw new IllegalArgumentException(
-					"Parameter srcFile doesn't exist! '"
-							+ srcFile.getAbsolutePath() + "'");
+			throw new IllegalArgumentException("Parameter srcFile doesn't exist! '" + srcFile.getAbsolutePath() + "'");
 		}
 
 		if (srcFile.isFile() == false) {
 			throw new IllegalArgumentException(
-					"Parameter srcFile is not a normal file! '"
-							+ srcFile.getAbsolutePath() + "'");
+					"Parameter srcFile is not a normal file! '" + srcFile.getAbsolutePath() + "'");
 		}
 
 		if (destFile == null) {
@@ -765,8 +676,7 @@ public class FileServices {
 
 		if (srcFile.exists() && srcFile.isFile() == false) {
 			throw new IllegalArgumentException(
-					"Parameter destFile is not a normal file! '"
-							+ srcFile.getAbsolutePath() + "'");
+					"Parameter destFile is not a normal file! '" + srcFile.getAbsolutePath() + "'");
 		}
 
 		if (srcFile.equals(destFile)) {
@@ -784,8 +694,6 @@ public class FileServices {
 		destPath = normalizePath(destPath);
 
 		if (destPath.equals(srcPath)) {
-			logger.warn("Copy: Files " + srcPath + " and " + destPath
-					+ " are identical!");
 			return;
 		}
 
@@ -818,14 +726,12 @@ public class FileServices {
 
 			try {
 
-				TemplateTransformer trafo = TemplateTransformer
-						.newInstance(srcFile);
+				TemplateTransformer trafo = TemplateTransformer.newInstance(srcFile);
 				trafo.transform(filterSet, destFile);
 
 			} catch (TemplateTransformException oops) {
 
-				IOException ioe = new IOException(
-						"TemplateTransformException: " + oops.getMessage());
+				IOException ioe = new IOException("TemplateTransformException: " + oops.getMessage());
 				ioe.initCause(oops);
 				ioe.fillInStackTrace();
 				throw ioe;
@@ -833,21 +739,18 @@ public class FileServices {
 		}
 	}
 
-	public static void copyFileToFile(String src, String dest)
-			throws IOException {
+	public static void copyFileToFile(String src, String dest) throws IOException {
 
 		copyFileToFile(new File(src), new File(dest), null);
 	}
 
 	/**
-	 * Die Methode <code>copyFileToFile</code> kopiert eine einzelne Datei.
-	 * Falls das Zielverzeichnis nicht existiert, wird es angelegt.
+	 * Die Methode <code>copyFileToFile</code> kopiert eine einzelne Datei. Falls
+	 * das Zielverzeichnis nicht existiert, wird es angelegt.
 	 * 
-	 * @throws IOException
-	 *             falls ein Fehler beim Kopieren auftritt.
+	 * @throws IOException falls ein Fehler beim Kopieren auftritt.
 	 */
-	public static void copyFileToFile(String src, String dest,
-			Map<String, String> filterSet) throws IOException {
+	public static void copyFileToFile(String src, String dest, Map<String, String> filterSet) throws IOException {
 
 		copyFileToFile(new File(src), new File(dest), filterSet);
 	}
@@ -855,8 +758,7 @@ public class FileServices {
 	public static File createParentDir(File dir) throws IOException {
 
 		if (dir == null) {
-			throw new IllegalArgumentException(
-					"The argument dir must not be null!");
+			throw new IllegalArgumentException("The argument dir must not be null!");
 		}
 
 		File parentDir = dir.getParentFile();
@@ -872,21 +774,18 @@ public class FileServices {
 	 * Legt ein neues Verzeichnis an.
 	 * 
 	 * Falls das Verzeichnis bereits existiert, wird dieses ohne Fehlermeldung
-	 * zurückgeliefert. Existiert das Verzeichnis nicht und das Anlegen schlägt
-	 * fehl wird eine Ausnahme erzeugt.
+	 * zurückgeliefert. Existiert das Verzeichnis nicht und das Anlegen schlägt fehl
+	 * wird eine Ausnahme erzeugt.
 	 * 
-	 * <b>Vorbedingung:</b> Wird als <code>dir</code>-Parameter
-	 * <code>null</code> Übergeben, so wird eine
-	 * <code>IllegalArgumentException</code> ausgelöst.
+	 * <b>Vorbedingung:</b> Wird als <code>dir</code>-Parameter <code>null</code>
+	 * Übergeben, so wird eine <code>IllegalArgumentException</code> ausgelöst.
 	 * 
-	 * @exception IOException
-	 *                falls das Anlegen des Verzeichnisses fehlschlägt.
+	 * @exception IOException falls das Anlegen des Verzeichnisses fehlschlägt.
 	 */
 	public static File createPath(File dir) throws IOException {
 
 		if (dir == null) {
-			throw new IllegalArgumentException(
-					"The argument dir must not be null!");
+			throw new IllegalArgumentException("The argument dir must not be null!");
 		}
 
 		String dirName = dir.getCanonicalPath();
@@ -894,8 +793,7 @@ public class FileServices {
 		if (JvmServices.isWindows()) {
 
 			if (dirName != null && dirName.length() > 255) {
-				throw new CreatePathException(dirName,
-						CreatePathException.PATH_TOO_LONG);
+				throw new CreatePathException(dirName, CreatePathException.PATH_TOO_LONG);
 			}
 		}
 
@@ -920,13 +818,11 @@ public class FileServices {
 				if (parent != null && parent.exists() == true) {
 
 					if (parent.isDirectory() == false) {
-						throw new CreatePathException(next.getCanonicalPath(),
-								CreatePathException.FILE_PARENT);
+						throw new CreatePathException(next.getCanonicalPath(), CreatePathException.FILE_PARENT);
 					}
 
 					if (parent.canWrite() == false || parent.canRead() == false) {
-						throw new CreatePathException(next.getCanonicalPath(),
-								CreatePathException.PERMISSION_DENIED);
+						throw new CreatePathException(next.getCanonicalPath(), CreatePathException.PERMISSION_DENIED);
 					}
 				}
 
@@ -941,15 +837,13 @@ public class FileServices {
 	 * Legt ein neues Verzeichnis an.
 	 * 
 	 * Falls das Verzeichnis bereits existiert, wird dieses ohne Fehlermeldung
-	 * zurückgeliefert. Existiert das Verzeichnis nicht und das Anlegen schlägt
-	 * fehl wird eine Ausnahme erzeugt.
+	 * zurückgeliefert. Existiert das Verzeichnis nicht und das Anlegen schlägt fehl
+	 * wird eine Ausnahme erzeugt.
 	 * 
-	 * <b>Vorbedingung:</b>Wird als <code>path</code>-Parameter
-	 * <code>null</code> übergeben, so wird eine
-	 * <code>IllegalArgumentException</code> ausgelöst.
+	 * <b>Vorbedingung:</b>Wird als <code>path</code>-Parameter <code>null</code>
+	 * übergeben, so wird eine <code>IllegalArgumentException</code> ausgelöst.
 	 * 
-	 * @throws IOException
-	 *             falls das Anlegen des Verzeichnisses fehlschlägt.
+	 * @throws IOException falls das Anlegen des Verzeichnisses fehlschlägt.
 	 */
 	public static File createPath(String path) throws IOException {
 
@@ -963,8 +857,7 @@ public class FileServices {
 	public static File createUniqueFile(File file) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		int index = 1;
@@ -992,13 +885,11 @@ public class FileServices {
 	public static String cutPrefixPathItems(String path, int length) {
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		if (length < 0) {
-			throw new IllegalArgumentException(
-					"The argument length must not be < 0!");
+			throw new IllegalArgumentException("The argument length must not be < 0!");
 		}
 
 		String buffer = normalizePath(path);
@@ -1029,8 +920,7 @@ public class FileServices {
 		return delete(file.getPath(), null);
 	}
 
-	public static int delete(File file, ProgressListener listener)
-			throws IOException {
+	public static int delete(File file, ProgressListener listener) throws IOException {
 
 		return delete(file.getPath(), listener, null);
 	}
@@ -1039,13 +929,10 @@ public class FileServices {
 	 * Die Methode <code>delete</code> löscht alle regulären Dateien aus dem
 	 * Verzeichnis, die auf den regulären Asudruck passen.
 	 * 
-	 * @param dir
-	 *            a <code>File</code> value
-	 * @param regexp
-	 *            a <code>String</code> value
+	 * @param dir    a <code>File</code> value
+	 * @param regexp a <code>String</code> value
 	 * @return an <code>int</code> value
-	 * @exception IOException
-	 *                if an error occurs
+	 * @exception IOException if an error occurs
 	 */
 	public static int delete(File dir, String regexp) throws IOException {
 
@@ -1064,39 +951,34 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>delete</code> löscht eine Datei oder ein Verzeichnis
-	 * und alle darin enthaltenen Dateien und Unterverzeichnisse.
+	 * Die Methode <code>delete</code> löscht eine Datei oder ein Verzeichnis und
+	 * alle darin enthaltenen Dateien und Unterverzeichnisse.
 	 */
 	public static int delete(String path) throws IOException {
 
 		return delete(path, null);
 	}
 
-	public static int delete(String path, ProgressListener listener)
-			throws IOException {
+	public static int delete(String path, ProgressListener listener) throws IOException {
 
 		return delete(path, listener, null);
 	}
 
 	/**
-	 * Die Methode <code>delete</code> löscht eine Datei oder ein Verzeichnis
-	 * und alle darin enthaltenen Dateien und Unterverzeichnisse.
+	 * Die Methode <code>delete</code> löscht eine Datei oder ein Verzeichnis und
+	 * alle darin enthaltenen Dateien und Unterverzeichnisse.
 	 */
-	public static int delete(String path, ProgressListener listener,
-			String resourceString) throws IOException {
+	public static int delete(String path, ProgressListener listener, String resourceString) throws IOException {
 		return delete(new File(path), listener, resourceString);
 	}
 
 	/**
-	 * Die Methode <code>delete</code> <b>löscht</b> eine Datei oder ein
-	 * Verzeichnis und alle darin enthaltenen Dateien und Unterverzeichnisse.
+	 * Die Methode <code>delete</code> <b>löscht</b> eine Datei oder ein Verzeichnis
+	 * und alle darin enthaltenen Dateien und Unterverzeichnisse.
 	 */
-	public static int delete(File node, ProgressListener listener,
-			String resourceString) throws IOException {
+	public static int delete(File node, ProgressListener listener, String resourceString) throws IOException {
 
 		String msg;
-
-		logger.debug("Lösche Pfad " + node + ".");
 
 		if (node == null) {
 			return 0;
@@ -1106,9 +988,6 @@ public class FileServices {
 		int counter = 0;
 
 		if (node.exists() == false) {
-
-			logger.debug("Der Pfad " + node.getAbsolutePath()
-					+ " existiert nicht!");
 			return 0;
 		}
 
@@ -1123,23 +1002,21 @@ public class FileServices {
 				/*
 				 * if (JvmServices.isWindows()) {
 				 * 
-				 * String[] cmd = new String[4]; cmd[0] = "del"; cmd[1] = "/F";
-				 * cmd[2] = "/Q"; cmd[3] = node.getCanonicalPath();
+				 * String[] cmd = new String[4]; cmd[0] = "del"; cmd[1] = "/F"; cmd[2] = "/Q";
+				 * cmd[3] = node.getCanonicalPath();
 				 * 
 				 * ExecResult result = ExecServices.exec(cmd);
 				 * 
-				 * if (result.getFailed()) { throw new
-				 * DeleteFileException(node); }
+				 * if (result.getFailed()) { throw new DeleteFileException(node); }
 				 * 
 				 * } else if (JvmServices.isUnix()) {
 				 * 
-				 * String[] cmd = new String[3]; cmd[0] = "rm"; cmd[1] = "-f";
-				 * cmd[2] = node.getCanonicalPath();
+				 * String[] cmd = new String[3]; cmd[0] = "rm"; cmd[1] = "-f"; cmd[2] =
+				 * node.getCanonicalPath();
 				 * 
 				 * ExecResult result = ExecServices.exec(cmd);
 				 * 
-				 * if (result.getFailed()) { throw new
-				 * DeleteFileException(node); }
+				 * if (result.getFailed()) { throw new DeleteFileException(node); }
 				 * 
 				 * } else {
 				 * 
@@ -1158,8 +1035,7 @@ public class FileServices {
 
 					if (list[i].isDirectory()) {
 
-						counter += delete(list[i].getAbsolutePath(), listener,
-								resourceString);
+						counter += delete(list[i].getAbsolutePath(), listener, resourceString);
 
 					} else {
 
@@ -1174,8 +1050,6 @@ public class FileServices {
 			counter++;
 
 			if (listener != null) {
-
-				logger.debug("Firing progress event.");
 
 				if (resourceString != null) {
 					msg = MessageFormat.format(resourceString, node.getPath());
@@ -1254,8 +1128,7 @@ public class FileServices {
 	public static void deleteEmptyDirs(File dir) throws IOException {
 
 		if (dir == null) {
-			throw new IllegalArgumentException(
-					"The argument dir must not be null!");
+			throw new IllegalArgumentException("The argument dir must not be null!");
 		}
 
 		File[] list = dir.listFiles();
@@ -1308,8 +1181,8 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>getDirName</code> liefert das übergeordnete Verzeichnis
-	 * des angegebenen Pfades.
+	 * Die Methode <code>getDirName</code> liefert das übergeordnete Verzeichnis des
+	 * angegebenen Pfades.
 	 */
 	public static String getDirName(String fileName) {
 
@@ -1335,8 +1208,8 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>getExtension</code> liefert die Dateinamenerweiterung
-	 * des angegebenen Pfadnamens.
+	 * Die Methode <code>getExtension</code> liefert die Dateinamenerweiterung des
+	 * angegebenen Pfadnamens.
 	 * 
 	 * Die Dateinamenerweiterung muß mit einem Punkt vom Rest getrennt sein. Der
 	 * Punkt wird nicht mit zurückgeliefert.
@@ -1362,8 +1235,7 @@ public class FileServices {
 	public static String getFileBase(File file) {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		return getFileBase(file.getPath());
@@ -1373,8 +1245,8 @@ public class FileServices {
 	 * Die Methode <code>getFileBase</code> liefert den Pfadnamen ohne
 	 * Dateinamenerweiterung.
 	 * 
-	 * Als Dateinamenerweiterung wird der letzte Teil eines Pfadnamens
-	 * angesehen, der mit einem Punkt vom Rest abgetrennt ist.
+	 * Als Dateinamenerweiterung wird der letzte Teil eines Pfadnamens angesehen,
+	 * der mit einem Punkt vom Rest abgetrennt ist.
 	 * 
 	 * Falls der Pfad Verzeichnisse enthält werden diese nicht entfernt. Um den
 	 * letzten Teil der Pfadangabe zu erhalten kann die Methode
@@ -1382,8 +1254,7 @@ public class FileServices {
 	 * 
 	 * <div title="example">
 	 * <p>
-	 * Der Pfad <code>/tmp/file.txt</code> wird zu <code>/tmp/file</code>.
-	 * </div>
+	 * Der Pfad <code>/tmp/file.txt</code> wird zu <code>/tmp/file</code>. </div>
 	 * 
 	 */
 	public static String getFileBase(String fileName) {
@@ -1420,11 +1291,10 @@ public class FileServices {
 		return file.getName();
 	}
 
-	public static String getMimeType(String fileName) {
+	public static String getMimeType(String fileName) throws FileNotFoundException, IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		String type = null;
@@ -1444,8 +1314,6 @@ public class FileServices {
 		type = StringServices.trim(type, ' ');
 
 		if (result.failed() == false && type != null && type.length() > 0) {
-
-			logger.debug("(file -b -pi -i " + fileName + ") -e type=" + type);
 			return type;
 		}
 
@@ -1456,7 +1324,6 @@ public class FileServices {
 		type = fnm.getContentTypeFor(name);
 
 		if (type != null && type.trim().length() > 0) {
-			logger.debug("(FileNameMap " + name + ") type=" + type);
 			return type;
 		}
 
@@ -1464,8 +1331,6 @@ public class FileServices {
 		MimeType mimeType = MimeType.findByExtension(ext);
 
 		if (mimeType != null) {
-			logger.debug("(MimeType " + name + ") type="
-					+ mimeType.getMimeType());
 			return mimeType.getMimeType();
 		}
 
@@ -1474,11 +1339,8 @@ public class FileServices {
 
 		if (file.exists() && file.canRead()) {
 
-			FileReader reader = null;
+			try (FileReader reader = new FileReader(file)) {
 
-			try {
-
-				reader = new FileReader(file);
 				int c = reader.read();
 
 				while (c != -1) {
@@ -1491,34 +1353,13 @@ public class FileServices {
 					}
 				}
 
-			} catch (Throwable oops) {
-
-				logger.fatal("FileServices.isBinary", oops);
-
-			} finally {
-
-				try {
-
-					if (reader != null) {
-						reader.close();
-					}
-
-				} catch (IOException oops) {
-
-					logger.fatal("FileServices.isBinary reader.close() ", oops);
-				}
 			}
 		}
 
 		if (nullByte == true) {
-
-			logger.debug("(No MimeType Found, Null Byte) " + name
-					+ ") type=application/octet-stream");
 			return "application/octet-stream";
 
 		} else {
-
-			logger.debug("(No MimeType Found " + name + ") type=text/plain");
 			return "text/plain";
 		}
 	}
@@ -1526,13 +1367,11 @@ public class FileServices {
 	public static String getPathHead(String path, int length) {
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		if (length < 0) {
-			throw new IllegalArgumentException(
-					"The argument length must not be < 0!");
+			throw new IllegalArgumentException("The argument length must not be < 0!");
 		}
 
 		path = normalizePath(path);
@@ -1558,13 +1397,11 @@ public class FileServices {
 	public static String getPathTail(String path, int length) {
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		if (length < 0) {
-			throw new IllegalArgumentException(
-					"The argument length must not be < 0!");
+			throw new IllegalArgumentException("The argument length must not be < 0!");
 		}
 
 		path = StringServices.replace(path, FSEP, "/");
@@ -1588,16 +1425,14 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>getPathToken</code> liefert einen bestimmenten Teil
-	 * eines Pfades.
+	 * Die Methode <code>getPathToken</code> liefert einen bestimmenten Teil eines
+	 * Pfades.
 	 * 
 	 * Der Pfad wird von <b>hinten</b> nach vorne beginnend mit der Ziffer 1
 	 * durchnummeriert.
 	 * 
-	 * @param path
-	 *            <code>String</code>
-	 * @param index
-	 *            <code>int</code>
+	 * @param path  <code>String</code>
+	 * @param index <code>int</code>
 	 * @return <code>String</code>
 	 */
 	public static String getPathToken(String path, int index) {
@@ -1606,19 +1441,15 @@ public class FileServices {
 			return "";
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		if (index < 0) {
-			throw new IllegalArgumentException(
-					"The argument index must not be < 0!");
+			throw new IllegalArgumentException("The argument index must not be < 0!");
 		}
 
 		String buffer = normalizePath(path);
 		buffer = StringServices.chop(buffer, "/");
-
-		logger.debug("buffer = " + buffer);
 
 		int indexStart = buffer.length();
 		int indexEnd = indexStart;
@@ -1628,22 +1459,16 @@ public class FileServices {
 			indexEnd = indexStart;
 			indexStart = buffer.lastIndexOf('/', indexStart - 1);
 
-			logger.debug("start = " + indexStart + ", end = " + indexEnd);
-
 			if (indexStart == -1) {
 				return null;
 			}
 		}
 
 		String token = buffer.substring(indexStart + 1, indexEnd);
-		logger.debug("path token [" + index + "] = '" + token + "'.");
-
 		return token;
 	}
 
 	public static int getPathTokenCount(String path) {
-
-		logger.debug("#1 path=" + path);
 
 		if (path == null || path.trim().length() == 0) {
 			return 0;
@@ -1652,35 +1477,26 @@ public class FileServices {
 		path = normalizePath(path);
 		path = StringServices.trim(path, '/');
 
-		logger.debug("#2 path=" + path);
-
 		int index = path.indexOf("/");
-		logger.debug("index=" + index);
-
 		int counter = 1;
 
 		while (index > 0) {
 
 			index = path.indexOf("/", index + 1);
-			logger.debug("index=" + index);
 			counter++;
 		}
 
-		logger.debug("counter=" + counter);
 		return counter;
 	}
 
-	public static String getValueOfKey(File file, String key)
-			throws IOException {
+	public static String getValueOfKey(File file, String key) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		if (key == null) {
-			throw new IllegalArgumentException(
-					"The argument key must not be null!");
+			throw new IllegalArgumentException("The argument key must not be null!");
 		}
 
 		key = key.trim();
@@ -1755,8 +1571,7 @@ public class FileServices {
 	public static String info(File file) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		StringBuffer buffer = new StringBuffer();
@@ -1781,8 +1596,7 @@ public class FileServices {
 	public static boolean isAbsolutePath(String path) {
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		String buffer = new String(path);
@@ -1804,26 +1618,22 @@ public class FileServices {
 		return false;
 	}
 
-	public static boolean isBinary(File file) {
+	public static boolean isBinary(File file) throws FileNotFoundException, IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		return isBinary(file.getAbsolutePath());
 	}
 
-	public static boolean isBinary(String fileName) {
+	public static boolean isBinary(String fileName) throws FileNotFoundException, IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		String mimeType = getMimeType(fileName);
-
-		logger.debug("mimeType=" + mimeType);
 
 		if (mimeType.startsWith("image/")) {
 			return true;
@@ -1837,16 +1647,11 @@ public class FileServices {
 			return true;
 		}
 
-		if (mimeType.equals("application/octet-stream")
-				|| mimeType.equals("application/pdf")
-				|| mimeType.equals("application/postscript")
-				|| mimeType.equals("application/x-cpio")
-				|| mimeType.equals("application/x-dvi")
-				|| mimeType.equals("application/x-gtar")
-				|| mimeType.equals("application/x-tar")
-				|| mimeType.equals("application/x-ustar")
-				|| mimeType.equals("application/x-troff-msvideo")
-				|| mimeType.equals("application/zip")) {
+		if (mimeType.equals("application/octet-stream") || mimeType.equals("application/pdf")
+				|| mimeType.equals("application/postscript") || mimeType.equals("application/x-cpio")
+				|| mimeType.equals("application/x-dvi") || mimeType.equals("application/x-gtar")
+				|| mimeType.equals("application/x-tar") || mimeType.equals("application/x-ustar")
+				|| mimeType.equals("application/x-troff-msvideo") || mimeType.equals("application/zip")) {
 			return true;
 		}
 
@@ -1855,11 +1660,8 @@ public class FileServices {
 
 		if (file.exists() && file.canRead()) {
 
-			FileReader reader = null;
+			try (FileReader reader = new FileReader(file)) {
 
-			try {
-
-				reader = new FileReader(file);
 				int c = reader.read();
 
 				while (c != -1) {
@@ -1872,22 +1674,6 @@ public class FileServices {
 					}
 				}
 
-			} catch (Throwable oops) {
-
-				logger.fatal("FileServices.isBinary", oops);
-
-			} finally {
-
-				try {
-
-					if (reader != null) {
-						reader.close();
-					}
-
-				} catch (IOException oops) {
-
-					logger.fatal("FileServices.isBinary reader.close() ", oops);
-				}
 			}
 		}
 
@@ -1920,13 +1706,11 @@ public class FileServices {
 	public static void move(String src, String destdir) throws IOException {
 
 		if (src == null) {
-			throw new IllegalArgumentException(
-					"The argument src must not be null!");
+			throw new IllegalArgumentException("The argument src must not be null!");
 		}
 
 		if (destdir == null) {
-			throw new IllegalArgumentException(
-					"The argument destdir must not be null!");
+			throw new IllegalArgumentException("The argument destdir must not be null!");
 		}
 
 		File srcFile = new File(src);
@@ -1944,8 +1728,8 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>newer</code> vergleicht ob die 1. Datei neuer als die
-	 * 2, Datei ist. Falls die 2. Datei nicht existiert wird true zurückgegeben.
+	 * Die Methode <code>newer</code> vergleicht ob die 1. Datei neuer als die 2,
+	 * Datei ist. Falls die 2. Datei nicht existiert wird true zurückgegeben.
 	 */
 	public static boolean newer(File f1, File f2) {
 
@@ -1976,27 +1760,25 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>normalizePath</code> konvertiert den angegegebenen Pfad
-	 * in ein Standardformat.
+	 * Die Methode <code>normalizePath</code> konvertiert den angegegebenen Pfad in
+	 * ein Standardformat.
 	 * 
 	 * <ol>
 	 * <li>Weißraum am Anfang oder Ende der Zeichenkette wird entfernt.</li>
-	 * <li>Alle betriebssystemspezifischen Trennzeichen werden in einen
-	 * Schrägstrich umgewandelt.</li>
+	 * <li>Alle betriebssystemspezifischen Trennzeichen werden in einen Schrägstrich
+	 * umgewandelt.</li>
 	 * <li>Falls der Pfad einen absoluten Pfad repäsentiert, werden redundante
 	 * Angaben bereinigt, z.B. <code>/C:/temp</code> wird zu
 	 * <code>C:/temp</code>.</li>
 	 * <ol>
 	 * 
-	 * @param path
-	 *            <code>String</code>
+	 * @param path <code>String</code>
 	 * @return <code>String</code>
 	 */
 	public static String normalizePath(String path) {
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		path = new String(path);
@@ -2031,14 +1813,13 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>pkgToPath</code> wandelt den Namen eines Java Packages
-	 * in einen Verzeichnispfad um.
+	 * Die Methode <code>pkgToPath</code> wandelt den Namen eines Java Packages in
+	 * einen Verzeichnispfad um.
 	 */
 	public static String pkgToPath(String pkg) {
 
 		if (pkg == null) {
-			throw new IllegalArgumentException(
-					"The argument pkg must not be null!");
+			throw new IllegalArgumentException("The argument pkg must not be null!");
 		}
 
 		String path = StringServices.replace(pkg, ".", File.separator);
@@ -2048,13 +1829,11 @@ public class FileServices {
 	public static String readLine(File file, int lineIndex) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		if (lineIndex < 0) {
-			throw new IllegalArgumentException(
-					"The argument lineIndex must not be < 0!");
+			throw new IllegalArgumentException("The argument lineIndex must not be < 0!");
 		}
 
 		int count = 0;
@@ -2086,21 +1865,17 @@ public class FileServices {
 		return readToArray(file, "UTF-8");
 	}
 
-	public static Object[] readToArray(File file, String encoding)
-			throws IOException {
+	public static Object[] readToArray(File file, String encoding) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		if (encoding == null) {
-			throw new IllegalArgumentException(
-					"The argument encoding must not be null!");
+			throw new IllegalArgumentException("The argument encoding must not be null!");
 		}
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				new FileInputStream(file), encoding));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));
 
 		Object[] array = null;
 
@@ -2144,18 +1919,14 @@ public class FileServices {
 			return null;
 		}
 
-		FileInputStream fis = new FileInputStream(file);
-
 		int off = 0;
 		long fileLength = file.length();
 
 		if (fileLength > Integer.MAX_VALUE) {
-
-			logger.error("The file is too big (>" + Integer.MAX_VALUE + ")!");
-			fis.close();
-			return null;
+			throw new IOException("The file is too big (>" + Integer.MAX_VALUE + ")!");
 		}
 
+		FileInputStream fis = new FileInputStream(file);
 		int length = (int) fileLength;
 		int size = length;
 
@@ -2176,25 +1947,6 @@ public class FileServices {
 						break;
 					}
 				}
-
-				if (off < 0) {
-					logger.error("Argument off must not be negative: off="
-							+ off + ", count=" + count + ", len=" + size
-							+ ", b.length=" + length);
-				}
-
-				if (size < 0) {
-					logger.error("Argument len must not be negative: off="
-							+ off + ", count=" + count + ", len=" + size
-							+ ", b.length=" + length);
-				}
-
-				if (size > (length - off)) {
-					logger.error("Argument len must not be negative: off="
-							+ off + ", count=" + count + ", len=" + size
-							+ ", b.length=" + length);
-				}
-
 			}
 
 		} finally {
@@ -2207,19 +1959,16 @@ public class FileServices {
 	public static String readToString(File file) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		return readToString(file, "UTF-8");
 	}
 
-	public static String readToString(File file, String encoding)
-			throws IOException {
+	public static String readToString(File file, String encoding) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		FileInputStream fis = new FileInputStream(file);
@@ -2234,21 +1983,17 @@ public class FileServices {
 		return readToString(is, "UTF-8");
 	}
 
-	public static String readToString(InputStream is, String encoding)
-			throws IOException {
+	public static String readToString(InputStream is, String encoding) throws IOException {
 
 		if (is == null) {
-			throw new IllegalArgumentException(
-					"The argument is must not be null!");
+			throw new IllegalArgumentException("The argument is must not be null!");
 		}
 
 		if (encoding == null) {
-			throw new IllegalArgumentException(
-					"The argument encoding must not be null!");
+			throw new IllegalArgumentException("The argument encoding must not be null!");
 		}
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
-				encoding));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is, encoding));
 
 		StringBuffer buffer = new StringBuffer();
 		char[] data = new char[4096];
@@ -2270,19 +2015,16 @@ public class FileServices {
 	public static String readToString(String fileName) throws IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		return readToString(new File(fileName), "UTF-8");
 	}
 
-	public static String readToString(String fileName, String encoding)
-			throws IOException {
+	public static String readToString(String fileName, String encoding) throws IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		return readToString(new File(fileName), encoding);
@@ -2290,13 +2032,13 @@ public class FileServices {
 
 	/**
 	 * Die Methode <code>relativePath</code> ermittelt den relativen Pfad um vom
-	 * Verzeichnis <code>start</code> zum Verzeichnis <code>dest</code> zu
-	 * gelangen. Falls kein relativer Pfad ermittelt werden kann wird der
-	 * absolute Pfad von <code>dest</code> zurückgeliefert.
+	 * Verzeichnis <code>start</code> zum Verzeichnis <code>dest</code> zu gelangen.
+	 * Falls kein relativer Pfad ermittelt werden kann wird der absolute Pfad von
+	 * <code>dest</code> zurückgeliefert.
 	 * 
 	 * Werden relative Pfade übergeben, so werden diese mit Hilfe der Methode
-	 * {@link File#getCanonicalFile()} in absolute PFade umgewandelt. Diese
-	 * Methode ermittelt Pfad anscheinend anhand des Rückgabewertes von
+	 * {@link File#getCanonicalFile()} in absolute PFade umgewandelt. Diese Methode
+	 * ermittelt Pfad anscheinend anhand des Rückgabewertes von
 	 * <code>System.getProperty("user.dir")</code>. Der Wert ist also nicht
 	 * vohersagbar und ist abhängig vom aktuellen Arbeitsverzeichnis.
 	 * 
@@ -2305,20 +2047,15 @@ public class FileServices {
 	public static String relativePath(File start, File dest) throws IOException {
 
 		if (start == null) {
-			throw new IllegalArgumentException(
-					"The argument start must not be null!");
+			throw new IllegalArgumentException("The argument start must not be null!");
 		}
 
 		if (dest == null) {
-			throw new IllegalArgumentException(
-					"The argument dest must not be null!");
+			throw new IllegalArgumentException("The argument dest must not be null!");
 		}
 
 		File from = new File(start.getCanonicalPath());
 		File to = new File(dest.getCanonicalPath());
-
-		logger.debug("Berechne relativen Pfad von " + from + " zu " + to
-				+ ".\n");
 
 		if (from.equals(to)) {
 			return ".";
@@ -2343,9 +2080,6 @@ public class FileServices {
 
 			path1 = fromParent.getCanonicalPath() + File.separator;
 			path2 = to.getCanonicalPath();
-
-			logger.debug("path1 = " + path1);
-			logger.debug("path2 = " + path2);
 
 			if (path2.startsWith(path1)) {
 
@@ -2381,17 +2115,14 @@ public class FileServices {
 		return dest.getCanonicalPath();
 	}
 
-	public static String removeParentPath(File dir, File parentDir)
-			throws IOException {
+	public static String removeParentPath(File dir, File parentDir) throws IOException {
 
 		if (dir == null) {
-			throw new IllegalArgumentException(
-					"The argument dir must not be null!");
+			throw new IllegalArgumentException("The argument dir must not be null!");
 		}
 
 		if (parentDir == null) {
-			throw new IllegalArgumentException(
-					"The argument parentDir must not be null!");
+			throw new IllegalArgumentException("The argument parentDir must not be null!");
 		}
 
 		String parentPath = parentDir.getCanonicalPath();
@@ -2406,20 +2137,15 @@ public class FileServices {
 	public static String removeParentPath(String path, String parentPath) {
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		if (parentPath == null) {
-			throw new IllegalArgumentException(
-					"The argument parentPath must not be null!");
+			throw new IllegalArgumentException("The argument parentPath must not be null!");
 		}
 
 		path = normalizePath(path);
 		parentPath = normalizePath(parentPath);
-
-		logger.debug("path=" + path);
-		logger.debug("parentPath=" + parentPath);
 
 		path = StringServices.cutPrefix(path, parentPath);
 
@@ -2429,18 +2155,14 @@ public class FileServices {
 	public static void rename(File srcFile, File destFile) throws IOException {
 
 		if (srcFile == null) {
-			throw new IllegalArgumentException(
-					"The argument srcFile must not be null!");
+			throw new IllegalArgumentException("The argument srcFile must not be null!");
 		}
 
 		if (destFile == null) {
-			throw new IllegalArgumentException(
-					"The argument destFile must not be null!");
+			throw new IllegalArgumentException("The argument destFile must not be null!");
 		}
 
 		if (srcFile.equals(destFile)) {
-			logger.warn("Source file " + srcFile
-					+ " is identical to destination file.");
 			return;
 		}
 
@@ -2461,8 +2183,7 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>replaceExtension</code> ersetzt die
-	 * Dateinamenserweiterung.
+	 * Die Methode <code>replaceExtension</code> ersetzt die Dateinamenserweiterung.
 	 */
 	public static String replaceExtension(File file, String extension) {
 
@@ -2470,19 +2191,16 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>replaceExtension</code> ersetzt die
-	 * Dateinamenserweiterung.
+	 * Die Methode <code>replaceExtension</code> ersetzt die Dateinamenserweiterung.
 	 */
 	public static String replaceExtension(String fileName, String extension) {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		if (extension == null) {
-			throw new IllegalArgumentException(
-					"The argument extension must not be null!");
+			throw new IllegalArgumentException("The argument extension must not be null!");
 		}
 
 		String base = getFileBase(fileName);
@@ -2490,7 +2208,7 @@ public class FileServices {
 		return base + extension;
 	}
 
-	public static boolean setReadOnly(File file) {
+	public static boolean setReadOnly(File file) throws IOException {
 
 		if (file == null || file.exists() == false) {
 			return false;
@@ -2499,85 +2217,69 @@ public class FileServices {
 		String[] cmd = null;
 		ExecResult result = null;
 
-		try {
+		if (JvmServices.isUnix()) {
 
-			if (JvmServices.isUnix()) {
+			if (file.isDirectory()) {
 
-				if (file.isDirectory()) {
+				cmd = new String[7];
+				cmd[0] = "find";
+				cmd[1] = file.getCanonicalPath();
+				cmd[2] = "-exec";
+				cmd[3] = "chmod";
+				cmd[4] = "a-w";
+				cmd[5] = "{}";
+				cmd[6] = ";";
 
-					cmd = new String[7];
-					cmd[0] = "find";
-					cmd[1] = file.getCanonicalPath();
-					cmd[2] = "-exec";
-					cmd[3] = "chmod";
-					cmd[4] = "a-w";
-					cmd[5] = "{}";
-					cmd[6] = ";";
+			} else {
 
-				} else {
-
-					cmd = new String[3];
-					cmd[0] = "chmod";
-					cmd[1] = "a-w";
-					cmd[2] = file.getCanonicalPath();
-				}
+				cmd = new String[3];
+				cmd[0] = "chmod";
+				cmd[1] = "a-w";
+				cmd[2] = file.getCanonicalPath();
 			}
+		}
 
-			if (JvmServices.isWindows()) {
+		if (JvmServices.isWindows()) {
 
-				cmd = new String[4];
+			cmd = new String[4];
+			cmd[0] = "attrib";
+			cmd[1] = "+r";
+			cmd[2] = "+h";
+			cmd[3] = file.getCanonicalPath();
+
+			if (file.isDirectory()) {
+
+				result = ExecServices.exec(cmd);
+
+				if (result.failed() == true) {
+					IOException oops = new IOException(result.toString());
+					throw oops;
+				}
+
+				cmd = new String[6];
 				cmd[0] = "attrib";
 				cmd[1] = "+r";
 				cmd[2] = "+h";
-				cmd[3] = file.getCanonicalPath();
-
-				if (file.isDirectory()) {
-
-					result = ExecServices.exec(cmd);
-
-					if (result.failed() == true) {
-						IOException oops = new IOException(result.toString());
-						throw oops;
-					}
-
-					cmd = new String[6];
-					cmd[0] = "attrib";
-					cmd[1] = "+r";
-					cmd[2] = "+h";
-					cmd[3] = file.getCanonicalPath() + "\\*.*";
-					cmd[4] = "/S";
-					cmd[5] = "/D";
-				}
+				cmd[3] = file.getCanonicalPath() + "\\*.*";
+				cmd[4] = "/S";
+				cmd[5] = "/D";
 			}
+		}
 
-			if (cmd == null) {
-				logger.error("Operating System '"
-						+ JvmServices.getOperatingSystem()
-						+ "' is not supported!");
-				return false;
-			}
+		if (cmd == null) {
+			return false;
+		}
 
-			logger.debug("Executing command '"
-					+ StringServices.arrayToString(cmd) + "'...");
-			result = ExecServices.exec(cmd);
+		result = ExecServices.exec(cmd);
 
-			if (result.failed() == true) {
-				logger.error(result.toString());
-				return false;
-			}
-
-		} catch (IOException oops) {
-
-			logger.fatal(
-					"setReadOnly failed! (" + StringServices.arrayToString(cmd)
-							+ ")", oops);
+		if (result.failed() == true) {
 			return false;
 		}
 
 		return true;
 	}
 
-	public static boolean setReadOnly(String path) {
+	public static boolean setReadOnly(String path) throws IOException {
 
 		if (path == null) {
 			return false;
@@ -2587,20 +2289,18 @@ public class FileServices {
 	}
 
 	/**
-	 * Die Methode <code>setWritable</code> setzt die Berechtigung Datei oder
-	 * das Verzeichnis auf schreibbar. Falls eine Verzeichnis angegeben wurde,
-	 * werden auch alle darin enthaltenen Dateien und Unterverzeichnisse
-	 * bearbeitet.
+	 * Die Methode <code>setWritable</code> setzt die Berechtigung Datei oder das
+	 * Verzeichnis auf schreibbar. Falls eine Verzeichnis angegeben wurde, werden
+	 * auch alle darin enthaltenen Dateien und Unterverzeichnisse bearbeitet.
 	 * 
 	 * <code>setWritable</code> verwendet Kommandos des Betriebssystems um die
-	 * Berechtigungen zu ändern. Unter Windows wird das Kommando
-	 * <code>attrib</code> aufgerufen und zusätzlich das Attribut
-	 * <code>hidden</code> zurückgesetzt.
+	 * Berechtigungen zu ändern. Unter Windows wird das Kommando <code>attrib</code>
+	 * aufgerufen und zusätzlich das Attribut <code>hidden</code> zurückgesetzt.
 	 * 
-	 * @param file
-	 *            <code>File</code>
+	 * @param file <code>File</code>
+	 * @throws IOException 
 	 */
-	public static boolean setWritable(File file) {
+	public static boolean setWritable(File file) throws IOException {
 
 		if (file == null || file.exists() == false) {
 			return false;
@@ -2609,92 +2309,70 @@ public class FileServices {
 		String[] cmd = null;
 		ExecResult result = null;
 
-		try {
+		if (JvmServices.isUnix()) {
 
-			if (JvmServices.isUnix()) {
+			if (file.isDirectory()) {
 
-				if (file.isDirectory()) {
+				cmd = new String[7];
+				cmd[0] = "find";
+				cmd[1] = file.getCanonicalPath();
+				cmd[2] = "-exec";
+				cmd[3] = "chmod";
+				cmd[4] = "a+w";
+				cmd[5] = "{}";
+				cmd[6] = ";";
 
-					cmd = new String[7];
-					cmd[0] = "find";
-					cmd[1] = file.getCanonicalPath();
-					cmd[2] = "-exec";
-					cmd[3] = "chmod";
-					cmd[4] = "a+w";
-					cmd[5] = "{}";
-					cmd[6] = ";";
+			} else {
 
-				} else {
-
-					cmd = new String[3];
-					cmd[0] = "chmod";
-					cmd[1] = "a+w";
-					cmd[2] = file.getCanonicalPath();
-				}
+				cmd = new String[3];
+				cmd[0] = "chmod";
+				cmd[1] = "a+w";
+				cmd[2] = file.getCanonicalPath();
 			}
+		}
 
-			if (JvmServices.isWindows()) {
+		if (JvmServices.isWindows()) {
 
-				cmd = new String[4];
+			cmd = new String[4];
+			cmd[0] = "attrib";
+			cmd[1] = "-r";
+			cmd[2] = "-h";
+			cmd[3] = file.getCanonicalPath();
+
+			if (file.isDirectory()) {
+
+				result = ExecServices.exec(cmd);
+
+				if (result.failed() == true) {
+					IOException oops = new IOException(result.toString());
+					throw oops;
+				}
+
+				cmd = new String[6];
 				cmd[0] = "attrib";
 				cmd[1] = "-r";
 				cmd[2] = "-h";
-				cmd[3] = file.getCanonicalPath();
-
-				if (file.isDirectory()) {
-
-					result = ExecServices.exec(cmd);
-
-					if (result.failed() == true) {
-						IOException oops = new IOException(result.toString());
-						throw oops;
-					}
-
-					cmd = new String[6];
-					cmd[0] = "attrib";
-					cmd[1] = "-r";
-					cmd[2] = "-h";
-					cmd[3] = file.getCanonicalPath() + "\\*.*";
-					cmd[4] = "/S";
-					cmd[5] = "/D";
-				}
+				cmd[3] = file.getCanonicalPath() + "\\*.*";
+				cmd[4] = "/S";
+				cmd[5] = "/D";
 			}
+		}
 
-			if (cmd == null) {
+		if (cmd == null) {
 
-				logger.error("Operating System '"
-						+ JvmServices.getOperatingSystem()
-						+ "' is not supported!");
-				return false;
-			}
+			return false;
+		}
 
-			logger.debug("Executing command '"
-					+ StringServices.arrayToString(cmd) + "'...");
-			result = ExecServices.exec(cmd);
+		result = ExecServices.exec(cmd);
 
-			if (result.failed() == true) {
-				logger.error(result.toString());
-				return false;
-			}
-
-		} catch (IOException oops) {
-
-			logger.fatal(
-					"setWritable failed! (" + StringServices.arrayToString(cmd)
-							+ ")", oops);
+		if (result.failed() == true) {
 			return false;
 		}
 
 		return true;
 	}
 
-	public static boolean setWritable(File file, String caller) {
-
-		logger.debug("Caller of setWritable is '" + caller + "'.");
-		return setWritable(file);
-	}
-
-	public static boolean setWritable(String path) {
+	public static boolean setWritable(String path) throws IOException {
 
 		if (path == null) {
 			return false;
@@ -2703,17 +2381,10 @@ public class FileServices {
 		return setWritable(new File(path));
 	}
 
-	public static boolean setWritable(String path, String caller) {
-
-		logger.debug("Caller of setWritable is '" + caller + "'.");
-		return setWritable(path);
-	}
-
 	public static void sort(File file) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		Object[] array = readToArray(file);
@@ -2729,8 +2400,7 @@ public class FileServices {
 	public static void touch(String fileName) throws IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		touch(new File(fileName));
@@ -2739,8 +2409,7 @@ public class FileServices {
 	public static String toWindowsPath(String path) {
 
 		if (path == null) {
-			throw new IllegalArgumentException(
-					"The argument path must not be null!");
+			throw new IllegalArgumentException("The argument path must not be null!");
 		}
 
 		String winPath = path;
@@ -2759,11 +2428,10 @@ public class FileServices {
 	}
 
 	/**
-	 * This method corrects the path regarding the used operating system.
-	 * Windows "\" and Linux "/"
+	 * This method corrects the path regarding the used operating system. Windows
+	 * "\" and Linux "/"
 	 * 
-	 * @param in
-	 *            the string representing the path
+	 * @param in the string representing the path
 	 * @return out the corrected string representing the path
 	 */
 	public static String correctPathSeperator(String in) {
@@ -2801,13 +2469,11 @@ public class FileServices {
 	public static void write(File file, InputStream instr) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		if (instr == null) {
-			throw new IllegalArgumentException(
-					"The argument instr must not be null!");
+			throw new IllegalArgumentException("The argument instr must not be null!");
 		}
 
 		File parent = file.getParentFile();
@@ -2828,32 +2494,26 @@ public class FileServices {
 		out.close();
 	}
 
-	public static void writeFromArray(File file, Object[] array)
-			throws IOException {
+	public static void writeFromArray(File file, Object[] array) throws IOException {
 
 		writeFromArray(file, array, "UTF-8");
 	}
 
-	public static void writeFromArray(File file, Object[] array, String encoding)
-			throws IOException {
+	public static void writeFromArray(File file, Object[] array, String encoding) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		if (array == null) {
-			throw new IllegalArgumentException(
-					"The argument array must not be null!");
+			throw new IllegalArgumentException("The argument array must not be null!");
 		}
 
 		if (encoding == null) {
-			throw new IllegalArgumentException(
-					"The argument encoding must not be null!");
+			throw new IllegalArgumentException("The argument encoding must not be null!");
 		}
 
-		PrintWriter writer = new PrintWriter(new OutputStreamWriter(
-				new FileOutputStream(file), encoding));
+		PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), encoding));
 
 		try {
 
@@ -2867,17 +2527,14 @@ public class FileServices {
 		}
 	}
 
-	public static void writeFromByteArray(File file, byte[] buffer)
-			throws IOException {
+	public static void writeFromByteArray(File file, byte[] buffer) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		if (buffer == null) {
-			throw new IllegalArgumentException(
-					"The argument buffer must not be null!");
+			throw new IllegalArgumentException("The argument buffer must not be null!");
 		}
 
 		FileOutputStream out = new FileOutputStream(file);
@@ -2885,17 +2542,14 @@ public class FileServices {
 		out.close();
 	}
 
-	public static void writeFromStream(String fileName, InputStream instr)
-			throws IOException {
+	public static void writeFromStream(String fileName, InputStream instr) throws IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		if (instr == null) {
-			throw new IllegalArgumentException(
-					"The argument instr must not be null!");
+			throw new IllegalArgumentException("The argument instr must not be null!");
 		}
 
 		FileOutputStream out = new FileOutputStream(fileName);
@@ -2909,8 +2563,7 @@ public class FileServices {
 		out.close();
 	}
 
-	public static void writeFromString(File file, String str)
-			throws IOException {
+	public static void writeFromString(File file, String str) throws IOException {
 
 		writeFromString(file, str, "UTF-8");
 	}
@@ -2924,12 +2577,10 @@ public class FileServices {
 	 * 
 	 * @param String die zu benutzende Zeichenkodierung (Standard UTF-8)
 	 */
-	public static void writeFromString(File file, String str, String encoding)
-			throws IOException {
+	public static void writeFromString(File file, String str, String encoding) throws IOException {
 
 		if (file == null) {
-			throw new IllegalArgumentException(
-					"The argument file must not be null!");
+			throw new IllegalArgumentException("The argument file must not be null!");
 		}
 
 		File parent = file.getParentFile();
@@ -2943,32 +2594,26 @@ public class FileServices {
 		fos.close();
 	}
 
-	public static void writeFromString(OutputStream os, String str)
-			throws IOException {
+	public static void writeFromString(OutputStream os, String str) throws IOException {
 
 		writeFromString(os, str, "UTF-8");
 	}
 
-	public static void writeFromString(OutputStream os, String str,
-			String encoding) throws IOException {
+	public static void writeFromString(OutputStream os, String str, String encoding) throws IOException {
 
 		if (os == null) {
-			throw new IllegalArgumentException(
-					"The argument os must not be null!");
+			throw new IllegalArgumentException("The argument os must not be null!");
 		}
 
 		if (str == null) {
-			throw new IllegalArgumentException(
-					"The argument str must not be null!");
+			throw new IllegalArgumentException("The argument str must not be null!");
 		}
 
 		if (encoding == null) {
-			throw new IllegalArgumentException(
-					"The argument encoding must not be null!");
+			throw new IllegalArgumentException("The argument encoding must not be null!");
 		}
 
-		PrintWriter writer = new PrintWriter(new OutputStreamWriter(os,
-				encoding));
+		PrintWriter writer = new PrintWriter(new OutputStreamWriter(os, encoding));
 
 		try {
 
@@ -2980,23 +2625,19 @@ public class FileServices {
 		}
 	}
 
-	public static void writeFromString(String fileName, String str)
-			throws IOException {
+	public static void writeFromString(String fileName, String str) throws IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		writeFromString(new File(fileName), str);
 	}
 
-	public static void writeFromString(String fileName, String str,
-			String encoding) throws IOException {
+	public static void writeFromString(String fileName, String str, String encoding) throws IOException {
 
 		if (fileName == null) {
-			throw new IllegalArgumentException(
-					"The argument fileName must not be null!");
+			throw new IllegalArgumentException("The argument fileName must not be null!");
 		}
 
 		writeFromString(new File(fileName), str, encoding);

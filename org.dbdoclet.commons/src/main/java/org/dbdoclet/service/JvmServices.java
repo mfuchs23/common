@@ -20,12 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class JvmServices {
-
-    public static Log logger = LogFactory.getLog(JvmServices.class);
 
     public static void listSystemProperties() {
 
@@ -110,7 +105,6 @@ public class JvmServices {
         }
 
         path = FileServices.appendPath(jdkHomeDir, "bin");
-        logger.debug("binPath=" + path);
         binDir = new File(path);
         
         path = FileServices.appendPath(jdkHomeDir, "lib");
@@ -152,21 +146,5 @@ public class JvmServices {
     public static File getHomeDirectory() {
 
         return new File(System.getProperty("user.home", "/tmp"));
-    }
-
-    public static void checkMemory() {
-
-        Runtime runtime = Runtime.getRuntime();
-        
-        long free = runtime.freeMemory();
-            
-        if (free < (1048576 * 24)) {
-
-            logger.debug("Running out of memory: " 
-                        + ((free / 1048576)) + "MB left.");
-            runtime.gc();
-            logger.debug("Running garbage collection: " 
-                        + ((runtime.freeMemory() / 1048576)) + " MB available.");
-        }
     }
 }

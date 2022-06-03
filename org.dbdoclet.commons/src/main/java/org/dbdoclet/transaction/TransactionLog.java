@@ -15,13 +15,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.service.FileServices;
 
 public class TransactionLog {
-
-    private static Log logger = LogFactory.getLog(TransactionLog.class);
 
     private HashMap<Object, String> actionMap = new HashMap<Object, String>();
     private File transactionDir = null;
@@ -91,11 +87,8 @@ public class TransactionLog {
     public void rollback(Throwable cause)
         throws RollbackException {
         
-        logger.info("TransactionLog.rollback - Starting rollback..");
-        
         if (transactionDir == null || transactionDir.length() == 0) {
-            logger.error("TransactionLog.rollback - The transaction directory must not be null! Stopping rollback.");
-            return;
+            throw new IllegalStateException("TransactionLog.rollback - The transaction directory must not be null! Stopping rollback.");
         }
 
         File file;
@@ -108,18 +101,18 @@ public class TransactionLog {
             oopsMap.put(cause, "Cause");
         }
 
-        FileServices.setWritable(transactionDir);
+        try {
+			FileServices.setWritable(transactionDir);
+		} catch (IOException e) {
+			throw new RollbackException(e);
+		}
 
         String lockFileName = FileServices.appendFileName(transactionDir, "TRANSACTION_LOCKED");
         File lockFile = new File(lockFileName);
         
         try {
-
             FileServices.touch(lockFile);
-
         } catch (IOException oops) {
-
-            logger.fatal("!!!===[ ROLLBACK FAILED ]===!!!", oops);
             oopsMap.put(oops, lockFile.getAbsolutePath());
         }
 
@@ -140,13 +133,10 @@ public class TransactionLog {
 
                     try {
 
-                        logger.info("TransactionLog.rollback - Deleting file " + file.getAbsolutePath() + ".");
                         FileServices.setWritable(file);
                         FileServices.delete(file);
 
                     } catch (IOException oops) {
-
-                        logger.fatal("!!!===[ ROLLBACK FAILED ]===!!!", oops);
                         oopsMap.put(oops, file.getAbsolutePath());
                     }
                 }
@@ -157,16 +147,9 @@ public class TransactionLog {
 
             try {
 
-                logger.info("TransactionLog.rollback - Restoring shadow directory " 
-                             + shadowCopyDir.getAbsolutePath() 
-                             + " to " 
-                             + shadowedDir.getAbsolutePath());
-
                 restoreShadowCopy();
 
             } catch (IOException oops) {
-
-                logger.fatal("!!!===[ ROLLBACK FAILED ]===!!!", oops);
                 oopsMap.put(oops, shadowedDir.getAbsolutePath());
             }
         }

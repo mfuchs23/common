@@ -1,10 +1,9 @@
 package org.dbdoclet.unit;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Locale;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.service.StringServices;
 
 /**
@@ -15,8 +14,6 @@ import org.dbdoclet.service.StringServices;
 public class Length {
 
 	private static final LengthUnit DEFAULT_UNIT = LengthUnit.MILLIMETER;
-
-	private static Log logger = LogFactory.getLog(Length.class);
 
 	private Double distance = null;
 	private boolean excludePercent = true;
@@ -254,9 +251,9 @@ public class Length {
 			Number num = formatter.parse(value);
 			td = num.doubleValue();
 
-		} catch (Throwable oops) {
+		} catch (NumberFormatException | ParseException oops) {
 
-			logger.error("Invalid value " + value + " for length.", oops);
+			System.err.println("[Length.processValue()]: Invalid value " + value + " for length. " + oops.getMessage());
 			return false;
 		}
 

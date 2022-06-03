@@ -17,15 +17,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.progress.ProgressEvent;
 import org.dbdoclet.progress.ProgressListener;
 import org.dbdoclet.service.FileServices;
 
 public class Copier {
-
-    private static Log logger = LogFactory.getLog(Copier.class);
 
     private ArrayList<ProgressListener> progressListenerList = new ArrayList<ProgressListener>();
     private LinkedHashMap<File, CopyJob> jobList = new LinkedHashMap<File, CopyJob>();
@@ -65,8 +61,6 @@ public class Copier {
 
         String path;
         
-        logger.debug("src=" + src + ", dest=" + dest);
-
         if (src == null) {
             throw new IllegalArgumentException("The argument src must not be null!");
         }
@@ -106,8 +100,6 @@ public class Copier {
             File[] files = src.listFiles();
 
             Arrays.stream(files).forEach(file -> {;
-
-            	logger.debug("file =" + file);
 
                 String destFileName = FileServices.appendFileName(dest, file.getName());
                 File destFile = new File(destFileName);
@@ -158,13 +150,6 @@ public class Copier {
     private void addToJobList(File dest, File src) {
         
         fireProgressEvent(new ProgressEvent().setStage(ProgressEvent.STAGE_PREPARE).setUserObject(dest));
-                    
-        CopyJob job = jobList.get(dest);
-        
-        if (job != null) {
-            logger.debug("File " + job.getFrom() + " is overriden by file " + src);
-        }
-        
         jobList.put(dest, new CopyJob(src, dest));
     }
 }

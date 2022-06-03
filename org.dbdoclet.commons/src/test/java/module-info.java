@@ -13,6 +13,7 @@ module org.dbdoclet.commons {
 	exports org.dbdoclet.transaction;
 	exports org.dbdoclet.unit;
 	
-	requires jdk.xml.dom;
-	requires java.desktop;
+	requires transitive jdk.xml.dom;
+	requires transitive java.desktop;
+	requires org.junit.jupiter.api;
 }

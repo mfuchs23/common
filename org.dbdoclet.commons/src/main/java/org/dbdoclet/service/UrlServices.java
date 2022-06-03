@@ -11,12 +11,7 @@ package org.dbdoclet.service;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class UrlServices {
-
-    private static Log logger = LogFactory.getLog(UrlServices.class.getName());
 
     public static final String USEP = "/";
     public static final String PROTOCOL_SEPARATOR = "://";
@@ -98,10 +93,7 @@ public class UrlServices {
 
         if (url.startsWith("cocs://")) {
             
-            logger.debug("URL(cocs://)=" + url);
-            
-            path = StringServices.cutPrefix(url, "cocs://");
-            
+            path = StringServices.cutPrefix(url, "cocs://");            
             int index = path.indexOf('?');
             
             if (index != -1) {
@@ -130,8 +122,6 @@ public class UrlServices {
         } catch (MalformedURLException oops) { /* Ignorieren, es geht weiter */ }
 
         if (url.startsWith("cocs://")) {
-            
-            logger.debug("URL(cocs://)=" + url);
             
             int index = url.indexOf('?');
             

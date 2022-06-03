@@ -21,12 +21,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class FileLock {
-
-    private static Log logger = LogFactory.getLog(FileLock.class);
 
     private File file;
     private String data;
@@ -54,19 +49,14 @@ public class FileLock {
             return false;
         }
 
-        try {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
 
-            PrintWriter writer = new PrintWriter(new FileWriter(file));
-            writer.println(data);
-            writer.close();
-
+        	writer.println(data);
             this.data = data;
 
         } catch (IOException oops) {
 
-            logger.fatal("FileLock.lock", oops);
-            oops.printStackTrace();
-            return false;
+        	return false;
         }
 
 

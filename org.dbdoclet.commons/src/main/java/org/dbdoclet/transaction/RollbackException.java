@@ -1,5 +1,6 @@
 package org.dbdoclet.transaction;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class RollbackException extends Exception {
@@ -9,4 +10,8 @@ public class RollbackException extends Exception {
     public RollbackException(HashMap<Throwable, String> oopsMap) {
         super();
     }
+
+	public RollbackException(IOException e) {
+		super(e);
+	}
 }

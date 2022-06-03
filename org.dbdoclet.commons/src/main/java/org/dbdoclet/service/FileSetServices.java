@@ -20,16 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.io.FileSet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class FileSetServices {
-
-	private static Log logger = LogFactory.getLog(FileSetServices.class
-			.getName());
 
 	public static void createAntFileSets(Document doc, Element parent,
 			ArrayList<FileSet> fileSetList) throws IOException {
@@ -87,8 +82,6 @@ public class FileSetServices {
 		if (tagName != null && tagName.equalsIgnoreCase("javadoc") == true) {
 			isJavadocParent = true;
 		}
-
-		logger.debug("filter type = " + fileSet.getFilterType());
 
 		File path = fileSet.getQualifiedPath();
 

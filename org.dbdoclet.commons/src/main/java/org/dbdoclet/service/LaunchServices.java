@@ -17,8 +17,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.progress.ConsoleInfoListener;
 import org.dbdoclet.progress.InfoListener;
 
@@ -27,8 +25,6 @@ import org.dbdoclet.progress.InfoListener;
  * Java-Klassen und Werkzeuge einer bestimmten Java-Installationen aufzurufen.
  */
 public class LaunchServices {
-
-    private static Log logger = LogFactory.getLog(LaunchServices.class);
 
     public static void execJavaClass(String javaHome, String className, InfoListener listener) {
 
@@ -44,16 +40,15 @@ public class LaunchServices {
         javaBin = FileServices.appendFileName(javaBin, "java");
         
         javaBin = javaBin + " -classpath " + System.getProperty("java.class.path") + " " + className;
-        logger.debug("javaBin=" + javaBin);
 
         ExecResult res = ExecServices.exec(javaBin, listener);
 
         if (res.failed() == true) {
 
             if (res.getThrowable() != null) {
-                logger.fatal(res.getOutput(), res.getThrowable());
+                throw new java.lang.RuntimeException(res.getOutput(), res.getThrowable());
             } else {
-                logger.fatal(res.getOutput());
+                throw new java.lang.RuntimeException(res.getOutput());
             }
         }
     }
@@ -83,7 +78,6 @@ public class LaunchServices {
 
         if (url == null) {
             msg = "Can't find resource [" + resource + "]";
-            logger.fatal(msg);
             throw new FileNotFoundException(msg);
         }
 
@@ -92,14 +86,12 @@ public class LaunchServices {
 
         if (buffer.equals(jarPrefix) || buffer.equals(filePrefix)) {
             msg = "Invalid url [" + buffer + "].";
-            logger.fatal(msg);
             throw new FileNotFoundException(msg);
         }
 
         if (buffer.startsWith(jarPrefix) == false && buffer.startsWith(filePrefix) == false) {
             msg = "Unknown url format [" + buffer + "]. Unknown prefix.";
-            logger.fatal(msg);
-            throw new FileNotFoundException(msg);
+             throw new FileNotFoundException(msg);
         }
 
         if (buffer.startsWith(jarPrefix)) {
@@ -120,8 +112,6 @@ public class LaunchServices {
 
         if (file.exists() == false) {
             msg = "No such file [" + file.getCanonicalPath() + "]!";
-            logger.fatal("buffer=" + buffer);
-            logger.fatal(msg);
             throw new FileNotFoundException(msg);
         }
 
@@ -169,7 +159,6 @@ public class LaunchServices {
 
         String path = jarFile.getCanonicalPath();
         path = StringServices.replace(path, "\\", "/");
-        logger.debug("path = " + path);
 
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(path);
@@ -190,13 +179,10 @@ public class LaunchServices {
         if (home.exists() == false) {
 
             msg = "No such file [" + jarFile.getCanonicalPath() + "]!";
-            logger.fatal(msg);
             throw new FileNotFoundException(msg);
             
         }
         
-        logger.debug("Installation directory: " + home.getPath());
-
         return home;
     }
 

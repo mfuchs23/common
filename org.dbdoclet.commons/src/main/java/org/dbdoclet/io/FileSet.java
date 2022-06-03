@@ -3,8 +3,6 @@ package org.dbdoclet.io;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.service.FileServices;
 import org.dbdoclet.service.StringServices;
 
@@ -23,8 +21,6 @@ public class FileSet {
 	public static final int STATUS_NOT_READABLE = 2;
 	public static final int STATUS_DUPLICATE = 3;
 	public static final int STATUS_VARIABLE = 4;
-
-	private static Log logger = LogFactory.getLog(FileSet.class);
 
 	private Integer id;
 	private File cwd = null;
@@ -265,7 +261,6 @@ public class FileSet {
 			}
 		}
 
-		logger.debug("path = " + strPath);
 		canonicalPath = new File(strPath);
 
 		status = STATUS_OK;
@@ -275,8 +270,6 @@ public class FileSet {
 		}
 
 		if (canonicalPath.exists() == false) {
-			logger.error(String.format("Path %s not found!",
-					canonicalPath.getAbsolutePath()));
 			status = STATUS_NOT_FOUND;
 		}
 

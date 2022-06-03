@@ -18,14 +18,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.Sfv;
 import org.dbdoclet.progress.InfoListener;
 
 public class ExecServices {
-
-	private static Log logger = LogFactory.getLog(ExecServices.class);
 
 	public static void sleep(int secs) {
 
@@ -108,11 +104,6 @@ public class ExecServices {
 		}
 
 		String[] cmdArray = ArrayServices.listToStringArray(cmdList);
-
-		for (int i = 0; i < cmdArray.length; i++) {
-			logger.debug("cmdArray[" + i + "]=" + cmdArray[i]);
-		}
-
 		return exec(cmdArray, null, workDir, background, listener);
 	}
 
@@ -177,8 +168,8 @@ public class ExecServices {
 			buffer.append(cmd[i]);
 			buffer.append("' ");
 		}
+
 		buffer.append("\"");
-		logger.info(buffer.toString());
 
 		Process process = null;
 		int exitCode = 0;
@@ -241,8 +232,6 @@ public class ExecServices {
 
 				try {
 
-					logger.info("Closing Stdout and Stderr...");
-					
 					if (stdout != null) {
 						stdout.close();
 					}

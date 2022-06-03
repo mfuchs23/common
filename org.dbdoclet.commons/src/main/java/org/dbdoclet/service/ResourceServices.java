@@ -26,9 +26,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Die Klasse <code>ResourceServices</code> bietet Methoden zur Bearbeitung von
  * Resourcen die vom Classloader geldaen werden.
@@ -37,8 +34,6 @@ import org.apache.commons.logging.LogFactory;
  * @version 1.0
  */
 public class ResourceServices {
-
-    private static Log logger = LogFactory.getLog(ResourceServices.class);
 
     public static ImageIcon getButtonIcon(String name) {
 
@@ -246,7 +241,7 @@ public class ResourceServices {
         return icon;
     }
 
-    public static boolean isDirectory(String name) {
+    public static boolean isDirectory(String name) throws IOException {
 
         if (name == null) {
             throw new IllegalArgumentException("The argument name must not be null!");
@@ -256,77 +251,46 @@ public class ResourceServices {
         String entry;
         String str;
 
-        BufferedReader reader = null;
-
         if (name.endsWith("/") == false) {
             name += "/";
         }
 
-        try {
+        buffer = getResourceAsString(name);
+        if (buffer == null) {
+        	throw new IOException("Can't find resource " + name);
+        }
 
-            buffer = getResourceAsString(name);
+        try (BufferedReader reader = new BufferedReader(new StringReader(buffer))) {
 
-            if (buffer == null) {
-                throw new IOException("Can't find resource " + name);
-            }
-
-            reader = new BufferedReader(new StringReader(buffer));
             entry = reader.readLine();
 
-            while (entry != null) {
+            if (entry != null) {
 
                 entry = name + entry;
-
-                logger.debug("entry=" + entry);
                 str = getResourceAsString(entry);
 
                 if (str == null) {
                     return false;
                 }
-
-                break;
-                // entry = reader.readLine();
             }
 
             return true;
-
-        } catch (IOException oops) {
-
-            logger.error(oops);
-            return false;
-
-        } finally {
-
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException oops) {
-                    logger.error(oops);
-                }
-            }
         }
     }
 
-    public static String[] list(String name) {
-
-        logger.debug("list " + name);
+    public static String[] list(String name) throws IOException {
 
         if (isDirectory(name) == false) {
-            logger.error("Resource " + name + " is not a directory!");
             return new String[0];
         }
 
-        String buffer;
-        String entry;
-        BufferedReader reader = null;
+        String buffer = getResourceAsString(name);
 
-        try {
+        try (BufferedReader reader = new BufferedReader(new StringReader(buffer))) {
 
-            ArrayList<String> list = new ArrayList<String>();
+            ArrayList<String> list = new ArrayList<>();
 
-            buffer = getResourceAsString(name);
-            reader = new BufferedReader(new StringReader(buffer));
-            entry = reader.readLine();
+            String entry = reader.readLine();
 
             while (entry != null) {
 
@@ -346,20 +310,6 @@ public class ResourceServices {
 
             return listing;
 
-        } catch (IOException oops) {
-
-            logger.error(oops);
-            return null;
-
-        } finally {
-
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException oops) {
-                    logger.error(oops);
-                }
-            }
         }
     }
 
@@ -382,8 +332,6 @@ public class ResourceServices {
             throw new IllegalArgumentException("The argument dir must not be null!");
         }
 
-        logger.debug("Resource: " + name + ", Directory: " + dir.getPath());
-
         FileServices.createPath(dir);
 
         String resourceName = name;
@@ -401,12 +349,9 @@ public class ResourceServices {
                 name += "/";
             }
 
-            logger.debug("Examination of directory " + name + "...");
             String[] listing = list(name);
 
             for (int i = 0; i < listing.length; i++) {
-
-                logger.debug("listing[" + i + "] = " + listing[i]);
                 copyToDir(name + listing[i], FileServices.appendFileName(dir, resourceName));
             }
 
@@ -419,8 +364,6 @@ public class ResourceServices {
             }
 
             String fileName = FileServices.appendFileName(dir, resourceName);
-            logger.debug("Writing resource " + fileName + "...");
-
             FileOutputStream outstr = new FileOutputStream(fileName);
 
             int n = 0;
@@ -462,8 +405,6 @@ public class ResourceServices {
             throw new IllegalArgumentException("The resource must not be a directory!");
         }
 
-        logger.debug("Resource: " + name + ", Datei: " + file.getPath());
-
         File dir = file.getParentFile();
 
         if (dir != null && dir.exists() == false) {
@@ -486,8 +427,6 @@ public class ResourceServices {
         }
 
         String fileName = FileServices.appendFileName(dir, file.getName());
-        logger.debug("Writing resource " + fileName + "...");
-
         FileOutputStream outstr = new FileOutputStream(fileName);
 
         int n = 0;
@@ -518,7 +457,6 @@ public class ResourceServices {
         try {
             return res.getString(key);
         } catch (MissingResourceException oops) {
-            logger.error("Missing resource '" + key + "'.", oops);
             return key;
         }
     }

@@ -3,7 +3,9 @@
   <info organisation="org.dbdoclet" module="org.dbdoclet.commons" revision="${module.version}" >
   </info>
   <dependencies>
-    <dependency org="org.apache" name="org.apache.commons.logging" rev="1.1.0" revConstraint="latest.release"/>
-    <dependency org="org.apache" name="org.apache.logging.log4j" rev="2.17.2" revConstraint="latest.release"/>
+    <dependency org="org.junit.jupiter" name="junit-jupiter-api" rev="5.8.2"/>
+    <dependency org="org.junit.platform" name="junit-platform-launcher" rev="1.8.2"/>
+    <dependency org="org.junit.vintage" name="junit-vintage-engine" rev="5.8.2"/>
+	<dependency org="org.junit.jupiter" name="junit-jupiter-engine" rev="5.8.2"/>
   </dependencies>
 </ivy-module>

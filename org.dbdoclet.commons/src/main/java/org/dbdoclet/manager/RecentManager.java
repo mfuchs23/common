@@ -12,24 +12,20 @@ package org.dbdoclet.manager;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.StringWriter;
 import java.util.ArrayList;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.service.FileServices;
 
 public class RecentManager implements Serializable {
 
 	private final static String home = System.getProperty("user.home");
 
-	private static Log logger = LogFactory.getLog(RecentManager.class
-			.getName());
 	private static final long serialVersionUID = 3L;
 
 	private String fileName = "recent.bin";
@@ -37,15 +33,15 @@ public class RecentManager implements Serializable {
 	private int maxListSize = 10;
 	private ArrayList<String> recentList = new ArrayList<String>();
 
-	public RecentManager(String id) {
+	public RecentManager(String id) throws IOException {
 		this(id, "recent.bin", 10);
 	}
 
-	public RecentManager(String id, String fileName) {
+	public RecentManager(String id, String fileName) throws IOException {
 		this(id, fileName, 10);
 	}
 
-	public RecentManager(String id, String fileName, int size) {
+	public RecentManager(String id, String fileName, int size) throws IOException {
 
 		this.id = id;
 		this.fileName = fileName;
@@ -73,11 +69,9 @@ public class RecentManager implements Serializable {
 		}
 
 		if (recentList.contains(name)) {
-			logger.debug("Removing " + name);
 			recentList.remove(name);
 		}
 
-		logger.debug("Adding " + name);
 		recentList.add(0, name);
 	}
 
@@ -109,7 +103,7 @@ public class RecentManager implements Serializable {
 		return null;
 	}
 
-	private void load(String id, String fileName, int size) {
+	private void load(String id, String fileName, int size) throws IOException {
 
 		if (id == null) {
 			throw new IllegalArgumentException(
@@ -127,25 +121,14 @@ public class RecentManager implements Serializable {
 
 		recentList = new ArrayList<String>();
 
-		try {
-
-			File file = getRecentFile(id, fileName);
-
-			if (file != null) {
-				readFile(file);
-			}
-
-		} catch (Exception oops) {
-
-			oops.printStackTrace();
-
-			StringWriter buffer = new StringWriter();
-			oops.printStackTrace(new PrintWriter(buffer));
-			logger.fatal(buffer.toString());
-		}
+		File file = getRecentFile(id, fileName);
+		
+		if (file != null) {
+			readFile(file);
+        }
 	}
 
-	private void readFile(File file) {
+	private void readFile(File file) throws FileNotFoundException, IOException {
 
 		if (file.exists() && file.canRead()) {
 
@@ -153,10 +136,7 @@ public class RecentManager implements Serializable {
 				recentList = new ArrayList<String>();
 			}
 
-			BufferedReader reader = null;
-
-			try {
-				reader = new BufferedReader(new FileReader(file));
+			try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 				
 				String line = reader.readLine();
 
@@ -169,19 +149,6 @@ public class RecentManager implements Serializable {
 					}
 
 					line = reader.readLine();
-				}
-
-			} catch (IOException oops) {
-
-				logger.fatal("RecentManager.readFile failed!", oops);
-
-			} finally {
-				try {
-					if (reader != null) {
-						reader.close();
-					}
-				} catch (IOException oops) {
-					logger.fatal("RecentManager.readFile failed!", oops);
 				}
 			}
 		}
@@ -210,37 +177,18 @@ public class RecentManager implements Serializable {
 		}
 	}
 
-	private void writeFile(File file) {
+	private void writeFile(File file) throws IOException {
 
 		if (file == null || recentList == null) {
 			return;
 		}
 
-		PrintWriter writer = null;
-
-		try {
-
-			writer = new PrintWriter(new FileWriter(file));
-
+		try(PrintWriter writer = new PrintWriter(new FileWriter(file))) {
 			for (String line : recentList) {
 				if (line != null) {
 					writer.println(line);
 				}
 			}
-
-		} catch (IOException oops) {
-
-			logger.fatal("RecentManager.readFile failed!", oops);
-
-		} finally {
-			try {
-				if (writer != null) {
-					writer.close();
-				}
-			} catch (Exception oops) {
-				logger.fatal("RecentManager.writeFile failed!", oops);
-			}
 		}
-
 	}
 }

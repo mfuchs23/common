@@ -15,16 +15,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.dbdoclet.progress.ProgressEvent;
 import org.dbdoclet.progress.ProgressListener;
 import org.dbdoclet.progress.ProgressVetoListener;
 import org.dbdoclet.service.FileServices;
 
 public class Eraser {
-
-    private static Log logger = LogFactory.getLog(Eraser.class);
 
     private ArrayList<ProgressVetoListener> progressListenerList = new ArrayList<ProgressVetoListener>();
     private LinkedHashMap<File, File> jobList = new LinkedHashMap<File, File>();
@@ -78,7 +74,6 @@ public class Eraser {
 
             for (int i = 0; i < files.length; i++) {
 
-                logger.debug("files[" + i + "]=" + files[i]);
                 FileServices.setWritable(files[i]);
 
                 if (files[i].isDirectory()) {
@@ -132,13 +127,6 @@ public class Eraser {
     private void addToJobList(File file) {
         
         fireProgressEvent(new ProgressEvent().setStage(ProgressEvent.STAGE_PREPARE).setUserObject(file));
-                    
-        File job = jobList.get(file);
-        
-        if (job != null) {
-            logger.warn("File " + job + " is overriden by file " + file);
-        }
-        
         jobList.put(file, file);
     }
 }
