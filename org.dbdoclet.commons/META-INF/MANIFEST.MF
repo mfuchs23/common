@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.dbdoclet.commons
 Bundle-SymbolicName: org.dbdoclet.commons
-Bundle-Version: 17.0.1
+Bundle-Version: 9.0.1
 Export-Package: org.dbdoclet,
  org.dbdoclet.comparator,
  org.dbdoclet.io,
