@@ -7,8 +7,6 @@ Export-Package: org.dbdoclet,
  org.dbdoclet.comparator,
  org.dbdoclet.io,
  org.dbdoclet.lock,
- org.dbdoclet.log,
- org.dbdoclet.logging,
  org.dbdoclet.manager,
  org.dbdoclet.net,
  org.dbdoclet.progress,
@@ -18,5 +16,4 @@ Export-Package: org.dbdoclet,
  org.dbdoclet.transaction,
  org.dbdoclet.unit
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Import-Package: org.apache.commons.logging
 Automatic-Module-Name: org.dbdoclet.commons
